@@ -39,10 +39,6 @@ const CardHolder = ({cards, card_size, firstCard, secondCard, setFirstCard, setS
         }
     }, [secondCard])
 
-    const style = {
-        border: active ? "solid 1px #f00" : "none"
-    }
-
     const pickCard = (card) => {
         // check validation
         if(cardList.length ===0)
@@ -76,9 +72,9 @@ const CardHolder = ({cards, card_size, firstCard, secondCard, setFirstCard, setS
     }
 
     return(
-        <div className={styles.cardHolder} style={style}>
+        <div className={styles.cardHolder}>
             {topCard != null && (
-                <Card card={topCard} size={card_size} pickup={pickCard} />
+                <Card card={topCard} size={card_size} active={active} pickup={pickCard} />
             )}
         </div>
     )

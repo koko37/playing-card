@@ -1,7 +1,7 @@
 import React from 'react'
-import { Container, Jumbotron  } from 'react-bootstrap';
+import { Container, Jumbotron, Row  } from 'react-bootstrap';
 import CardHolder from "./components/CardHolder"
-
+import "./styles/app.css"
 
 export default () => {
     const card_size = {
@@ -40,13 +40,29 @@ export default () => {
             <Jumbotron className="mt-3">
                 <h1>Playing card game</h1>
                 <p className="lead">This is card game by React</p>
-                <div className="d-flex">
+                <Row className="d-flex justify-content-between mb-2">
                     <CardHolder cards={cards_place_1} card_size={card_size} />
                     <CardHolder cards={cards_place_2} card_size={card_size} />
                     <CardHolder cards={cards_place_3} card_size={card_size} />
                     <CardHolder cards={cards_place_4} card_size={card_size} />
-                </div>
+                    <CardHolder cards={cards_place_4} card_size={card_size} />
+                </Row>
                 
+                <Row className="d-flex justify-content-between mb-2">
+                    <CardHolder cards={cards_place_1} card_size={card_size} />
+                    <CardHolder cards={cards_place_2} card_size={card_size} />
+                    <CardHolder cards={cards_place_3} card_size={card_size} />
+                    <CardHolder cards={cards_place_4} card_size={card_size} />
+                    <CardHolder cards={cards_place_4} card_size={card_size} />
+                </Row>
+
+                <Row className="d-flex justify-content-between mb-2">
+                    <CardHolder cards={cards_place_1} card_size={card_size} />
+                    <CardHolder cards={cards_place_2} card_size={card_size} />
+                    <CardHolder cards={cards_place_3} card_size={card_size} />
+                    <CardHolder cards={cards_place_4} card_size={card_size} />
+                    <CardHolder cards={cards_place_4} card_size={card_size} />
+                </Row>
             </Jumbotron>
         </Container>
     )

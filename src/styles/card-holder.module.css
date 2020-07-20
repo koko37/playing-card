@@ -1,7 +1,7 @@
 .cardHolder{
     display: inline-block;
     margin: 0;
-    padding: 5px;
+    padding: 0px;
     border-radius: 3%;
     background-color: #fef9f3;
 }

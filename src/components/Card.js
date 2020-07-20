@@ -5,7 +5,7 @@ import diamond from "../imgs/d.png"
 import heart from "../imgs/h.png"
 import spade from "../imgs/s.png"
 
-export default ({card, size, pickup}) => {
+export default ({card, size, active, pickup}) => {
     const width = size != null ? size.width : "120px"
     const height = size != null ? size.height : "150px"
 
@@ -32,7 +32,8 @@ export default ({card, size, pickup}) => {
         backgroundImage: `url(${getImage(card.flower)})`,
         backgroundRepeat: "no-repeat",
         backgroundPosition: "10% 10%",
-        backgroundSize: "20% 17%"
+        backgroundSize: "20% 17%",
+        borderColor: (active ? 'red' : '#ccc')
     }
 
     return (
