@@ -21,6 +21,20 @@ export default () => {
         {flower: "s", number: "9"},
     ]
     
+    const cards_place_3 = [
+        {flower: "c", number: "6"},
+        {flower: "h", number: "7"},
+        {flower: "c", number: "8"},
+        {flower: "d", number: "9"},
+    ]
+
+    const cards_place_4 = [
+        {flower: "c", number: "3"},
+        {flower: "h", number: "5"},
+        {flower: "h", number: "j"},
+        {flower: "c", number: "8"},
+    ]
+
     return (
         <Container>
             <Jumbotron className="mt-3">
@@ -29,6 +43,8 @@ export default () => {
                 <div className="d-flex">
                     <CardHolder cards={cards_place_1} card_size={card_size} />
                     <CardHolder cards={cards_place_2} card_size={card_size} />
+                    <CardHolder cards={cards_place_3} card_size={card_size} />
+                    <CardHolder cards={cards_place_4} card_size={card_size} />
                 </div>
                 
             </Jumbotron>

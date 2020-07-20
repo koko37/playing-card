@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import styles from "../styles/card-holder.module.css"
 import Card from "./Card"
@@ -18,7 +18,26 @@ const mapDispatchToProps = (dispatch) => ({
 const CardHolder = ({cards, card_size, firstCard, secondCard, setFirstCard, setSecondCard, releaseSelect}) => {
     const [cardList, setCardList] = useState(cards);
     const [topCard, setTopCard] = useState(cards[cards.length - 1])
-    const [active, setActive] = useState(topCard === firstCard);
+    const [active, setActive] = useState(false);
+
+    useEffect(()=>{
+        setActive(firstCard === topCard);
+    }, [firstCard, topCard])
+
+    useEffect(()=>{
+        console.log("second card selected: ", JSON.stringify(firstCard), JSON.stringify(secondCard));
+        if((firstCard != null) && (secondCard != null) && (firstCard.number === secondCard.number))
+        {
+            if(firstCard === topCard)
+            {
+                const cardListNew = cardList.slice(0, cardList.length-1);
+                const topCardNew = cardListNew[cardListNew.length - 1];
+                setCardList(cardListNew);
+                setTopCard(topCardNew);
+                releaseSelect();
+            }
+        }
+    }, [secondCard])
 
     const style = {
         border: active ? "solid 1px #f00" : "none"
@@ -44,15 +63,16 @@ const CardHolder = ({cards, card_size, firstCard, secondCard, setFirstCard, setS
         if(firstCard.number !== topCard.number)
         {
             console.log("different card selected.");
-            setFirstCard(null);
+            releaseSelect();
             return;
         }
 
-        // 2 same cards were selected, so remove the card pair
-        setTopCard(cardList.pop());
-        setActive(false);
-        setFirstCard(null);   
-
+        // remove seecond card
+        setSecondCard(topCard);
+        const cardListNew = cardList.slice(0, cardList.length-1);
+        const topCardNew = cardListNew[cardListNew.length - 1];
+        setCardList(cardListNew);
+        setTopCard(topCardNew);
     }
 
     return(
