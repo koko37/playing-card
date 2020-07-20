@@ -5,7 +5,7 @@ import diamond from "../imgs/d.png"
 import heart from "../imgs/h.png"
 import spade from "../imgs/s.png"
 
-export default ({flower, number, size}) => {
+export default ({card, size, pickup}) => {
     const width = size != null ? size.width : "120px"
     const height = size != null ? size.height : "150px"
 
@@ -28,16 +28,16 @@ export default ({flower, number, size}) => {
     const card_style = {
         width: width,
         height: height,
-        color: (flower === "h" || flower === "d") ? "red" : "black",
-        backgroundImage: `url(${getImage(flower)})`,
+        color: (card.flower === "h" || card.flower === "d") ? "red" : "black",
+        backgroundImage: `url(${getImage(card.flower)})`,
         backgroundRepeat: "no-repeat",
         backgroundPosition: "10% 10%",
         backgroundSize: "20% 17%"
     }
 
     return (
-        <div className={styles.card + " d-flex align-items-center justify-content-center"} style={card_style}>
-            <span className={styles.number}>{number.toString().toUpperCase()}</span>
+        <div className={styles.card + " d-flex align-items-center justify-content-center"} style={card_style} onClick={() => pickup(card)}>
+            <span className={styles.number}>{card.number.toString().toUpperCase()}</span>
         </div>
     )
 }

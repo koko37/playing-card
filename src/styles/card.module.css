@@ -4,6 +4,7 @@
     margin: 5px;
     border-radius: 3%;
     background-color: #fef9f3;
+    cursor: pointer;
 }
 
 .card:hover {
