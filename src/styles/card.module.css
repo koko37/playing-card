@@ -1,0 +1,16 @@
+.card{
+    border: solid 1px #ccc;
+    display: block;
+    margin: 5px;
+    border-radius: 3%;
+    background-color: #fef9f3;
+}
+
+.card:hover {
+    border: solid 3px #ccc;
+    background-color: #fcf8f0;
+}
+
+.number{
+    font-size: 2em;
+}

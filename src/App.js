@@ -1,26 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import { Container, Row, Button, Jumbotron  } from 'react-bootstrap';
+import Card from "./components/Card"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default () => {
+    const card_size = {
+        width: "90px", 
+        height: "120px"
+    }
+
+    return (
+        <Container>
+            <Jumbotron className="mt-3">
+                <h1>Playing card game</h1>
+                <p className="lead">This is card game by React</p>
+                <div className="d-flex">
+                    <Card flower="h" number="3" size={card_size} />
+                    <Card flower="d" number="3" size={card_size} />
+                    <Card flower="s" number="k" size={card_size} />
+                    <Card flower="c" number="j" size={card_size} />
+                </div>
+                
+            </Jumbotron>
+        </Container>
+    )
 }
-
-export default App;
