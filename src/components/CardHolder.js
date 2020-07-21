@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import styles from "../styles/card-holder.module.css"
 import Card from "./Card"
+import BlankCard from "./BlankCard"
+
 import { pickFirstCard, pickSecondCard, releaseSelected } from "../actions/picKActions"
 
 const mapStateToProps = (state) => ({
@@ -75,6 +77,9 @@ const CardHolder = ({cards, card_size, firstCard, secondCard, setFirstCard, setS
         <div className={styles.cardHolder}>
             {topCard != null && (
                 <Card card={topCard} size={card_size} active={active} pickup={pickCard} />
+            )}
+            {topCard == null && (
+              <BlankCard size={card_size} />
             )}
         </div>
     )
