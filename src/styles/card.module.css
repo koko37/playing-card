@@ -1,17 +1,19 @@
 .card{
     border-style: solid;
-    border-width: 1px;
+    border-width: 2px;
     display: block;
     margin: 0;
     padding: 0;
     border-radius: 3%;
     background-color: #fef9f3;
     cursor: pointer;
+    -moz-user-select: none;
+    -webkit-user-select: none;
 }
 
 .card:hover {
     border-style: solid;
-    border-width: 3px;
+    border-width: 4px;
     background-color: #fcf8f0;
 }
 

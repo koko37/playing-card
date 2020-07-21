@@ -32,7 +32,7 @@ export default ({card, size, active, pickup}) => {
         backgroundImage: `url(${getImage(card.flower)})`,
         backgroundRepeat: "no-repeat",
         backgroundPosition: "10% 10%",
-        backgroundSize: "20% 17%",
+        backgroundSize: "20% 15%",
         borderColor: (active ? 'red' : '#ccc')
     }
 
