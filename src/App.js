@@ -1,7 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Container, Jumbotron, Row, Col  } from 'react-bootstrap';
+import { Container, Jumbotron, Row, Col, Button  } from 'react-bootstrap';
 import CardHolder from "./components/CardHolder"
+import { resetPickStatus } from "./actions/picKActions"
+import { resetHolders } from "./actions/scoreActions"
+import { getCardFromNumber, swapTwoElement } from "./utils/card"
+
 import "./styles/app.css"
 
 const mapStateToProps = (state) => ({
@@ -9,63 +13,21 @@ const mapStateToProps = (state) => ({
   centerHoldersStatus: state.score.centerRowsDisableState
 })
 
-const App = ({score, centerHoldersStatus}) => {
+const mapDispatchToProps = (dispatch) => ({
+  resetPickCard: () => dispatch(resetPickStatus()),
+  resetHolder: () => dispatch(resetHolders())
+})
+
+const App = ({score, centerHoldersStatus, resetPickCard, resetHolder}) => {
     const card_size = {
         width: "100px", 
         height: "120px"
     }
-    
-    const getCardFromNumber = (n) => {
-      let flower, number, value;
-      switch(Math.floor((n-1)/13))
-      {
-        case 0:
-          flower = "h";
-          break;
-        case 1:
-          flower = "s";
-          break;
-        case 2:
-          flower = "d";
-          break;
-        case 3:
-          flower = "c";
-          break;
-        default:
-          flower = ""
-          break;
-      }
-      number = ((n-1) % 13) + 1;
-      if(number === 1)
-      {
-        value = "a"
-      }
-      else if(number === 11)
-      {
-        value = "j"
-      }
-      else if(number === 12)
-      {
-        value = "q"
-      }
-      else if(number === 13)
-      {
-        value = "k"
-      }
-      else 
-      {
-        value = number;
-      }
-      return {flower: flower, number: value}
-    }
-
-    const swapTwoElement = (numberArray, firstIndex, secondIndex) => {
-      let c = numberArray[firstIndex];
-      numberArray[firstIndex] = numberArray[secondIndex];
-      numberArray[secondIndex] = c;
-    }
 
     const cardData = new Array(15);
+    var fistRowOfHolders = new Array(0);
+    var lastRowOfHolders = new Array(0);
+    var centerRowOfHolders = new Array(0);
 
     const initCardData = () => {
       let cardDataInit = [];
@@ -92,32 +54,36 @@ const App = ({score, centerHoldersStatus}) => {
         }
         cardData[holderNo] = holder_card_data;
       }
+
+      // prepare card holder rows
+      for (n=0; n<5; n++)
+      {
+        fistRowOfHolders.push(<CardHolder cards={cardData[n]} card_size={card_size} id={n} key={n}/>)
+      }
+      for (n=5; n<10; n++)
+      {
+        lastRowOfHolders.push(<CardHolder cards={cardData[n]} card_size={card_size} id={n} key={n}/>)
+      }
+      for (n=10; n<15; n++)
+      {
+        centerRowOfHolders.push(<CardHolder cards={cardData[n]} card_size={card_size} id={n} key={n} disable={centerHoldersStatus[n-10]} />)
+      }
+
+      // reset store status
+      resetPickCard();
+      resetHolder();
     }
 
     initCardData();
 
-    // prepare card holder rows
-    var fistRowOfHolders = new Array(0);
-    var lastRowOfHolders = new Array(0);
-    var centerRowOfHolders = new Array(0);
-    let n;
-    for (n=0; n<5; n++)
-    {
-      fistRowOfHolders.push(<CardHolder cards={cardData[n]} card_size={card_size} id={n} key={n}/>)
-    }
-    for (n=5; n<10; n++)
-    {
-      lastRowOfHolders.push(<CardHolder cards={cardData[n]} card_size={card_size} id={n} key={n}/>)
-    }
-    for (n=10; n<15; n++)
-    {
-      centerRowOfHolders.push(<CardHolder cards={cardData[n]} card_size={card_size} id={n} key={n} disable={centerHoldersStatus[n-10]} />)
-    }
-
     return (
         <Container>
             <Jumbotron className="mt-3">
-                <h1 className="text-primary">Playing card game</h1>
+                <div className="d-flex justify-content-between align-items-center">
+                  <h1 className="text-primary">Playing card game</h1>
+
+                  <Button variant="danger">Restart</Button>
+                </div>
                 <Row>
                   <Col md="10" sm="10" lg="10">
                     <p className="lead mb-0 text-info">This is card game by React</p>
@@ -149,4 +115,4 @@ const App = ({score, centerHoldersStatus}) => {
     )
 }
 
-export default connect(mapStateToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)

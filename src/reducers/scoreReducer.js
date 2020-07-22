@@ -23,6 +23,10 @@ export default function scoreReducer(state = initialState, action) {
         centerRowsDisableState: state.centerRowsDisableState,
         blankHolders: state.blankHolders
       }
+
+    case actions.RESET_HOLDERS:
+      return initialState;
+      
     default:
       return state;
   }
