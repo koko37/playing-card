@@ -1,12 +1,18 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Container, Jumbotron, Row, Col  } from 'react-bootstrap';
 import CardHolder from "./components/CardHolder"
 import "./styles/app.css"
 
-export default () => {
+const mapStateToProps = (state) => ({
+  score: state.score.score,
+  centerHoldersStatus: state.score.centerRowsDisableState
+})
+
+const App = ({score, centerHoldersStatus}) => {
     const card_size = {
-        width: "120px", 
-        height: "150px"
+        width: "100px", 
+        height: "120px"
     }
     
     const getCardFromNumber = (n) => {
@@ -90,40 +96,57 @@ export default () => {
 
     initCardData();
 
+    // prepare card holder rows
+    var fistRowOfHolders = new Array(0);
+    var lastRowOfHolders = new Array(0);
+    var centerRowOfHolders = new Array(0);
+    let n;
+    for (n=0; n<5; n++)
+    {
+      fistRowOfHolders.push(<CardHolder cards={cardData[n]} card_size={card_size} id={n} key={n}/>)
+    }
+    for (n=5; n<10; n++)
+    {
+      lastRowOfHolders.push(<CardHolder cards={cardData[n]} card_size={card_size} id={n} key={n}/>)
+    }
+    for (n=10; n<15; n++)
+    {
+      centerRowOfHolders.push(<CardHolder cards={cardData[n]} card_size={card_size} id={n} key={n} disable={centerHoldersStatus[n-10]} />)
+    }
+
     return (
         <Container>
             <Jumbotron className="mt-3">
                 <h1 className="text-primary">Playing card game</h1>
-                <p className="lead mb-0 text-info">This is card game by React</p>
-                <p className="lead mt-0 text-info">Please select double card with same number. Then it will disappear.</p>
+                <Row>
+                  <Col md="10" sm="10" lg="10">
+                    <p className="lead mb-0 text-info">This is card game by React</p>
+                    <p className="lead mt-0 text-info">Please select double card with same number. Then it will disappear.</p>
+                  </Col>
+
+                  <Col md="2" sm="2" lg="2">
+                    <h1 className="text-danger">{score}</h1>
+                  </Col>
+                </Row>
+                
                 <Row>
                     <Col className="d-flex justify-content-between mb-2 px-5">
-                      <CardHolder cards={cardData[0]} card_size={card_size} />
-                      <CardHolder cards={cardData[1]} card_size={card_size} />
-                      <CardHolder cards={cardData[2]} card_size={card_size} />
-                      <CardHolder cards={cardData[3]} card_size={card_size} />
-                      <CardHolder cards={cardData[4]} card_size={card_size} />
+                      { fistRowOfHolders }
                     </Col>
                 </Row>
                 <Row>
                     <Col className="d-flex justify-content-between mb-2 px-5">
-                      <CardHolder cards={cardData[5]} card_size={card_size} disable={true} />
-                      <CardHolder cards={cardData[6]} card_size={card_size} disable={true} />
-                      <CardHolder cards={cardData[7]} card_size={card_size} disable={true} />
-                      <CardHolder cards={cardData[8]} card_size={card_size} disable={true} />
-                      <CardHolder cards={cardData[9]} card_size={card_size} disable={true} />
+                    { centerRowOfHolders }
                     </Col>
                 </Row>
                 <Row>
                     <Col className="d-flex justify-content-between mb-2 px-5">
-                      <CardHolder cards={cardData[10]} card_size={card_size} />
-                      <CardHolder cards={cardData[11]} card_size={card_size} />
-                      <CardHolder cards={cardData[12]} card_size={card_size} />
-                      <CardHolder cards={cardData[13]} card_size={card_size} />
-                      <CardHolder cards={cardData[14]} card_size={card_size} />
+                    { lastRowOfHolders }
                     </Col>
                 </Row>
             </Jumbotron>
         </Container>
     )
 }
+
+export default connect(mapStateToProps)(App)

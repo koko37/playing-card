@@ -6,6 +6,7 @@ import BlankCard from "./BlankCard"
 import BackCard from "./BackCard"
 
 import { pickFirstCard, pickSecondCard, releaseSelected } from "../actions/picKActions"
+import { emptyHolder } from "../actions/scoreActions"
 
 const mapStateToProps = (state) => ({
     firstCard: state.pickup.firstCard,
@@ -15,13 +16,11 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     setFirstCard: (card) => dispatch(pickFirstCard(card)),
     setSecondCard: (card) => dispatch(pickSecondCard(card)),
-    releaseSelect: () => dispatch(releaseSelected())
+    releaseSelect: () => dispatch(releaseSelected()),
+    emptyCardHolder: (n) => dispatch(emptyHolder(n))
 })
 
-const CardHolder = ({cards, card_size, firstCard, secondCard, setFirstCard, setSecondCard, releaseSelect, disable=false}) => {
-  console.log("CardHolder .....");
-  console.log(JSON.stringify(cards));
-
+const CardHolder = ({cards, card_size, firstCard, secondCard, setFirstCard, setSecondCard, releaseSelect, id, emptyCardHolder, disable=false}) => {
     const [cardList, setCardList] = useState(cards);
     const [topCard, setTopCard] = useState(cards[cards.length - 1])
     const [active, setActive] = useState(false);
@@ -31,7 +30,6 @@ const CardHolder = ({cards, card_size, firstCard, secondCard, setFirstCard, setS
     }, [firstCard, topCard])
 
     useEffect(()=>{
-        console.log("second card selected: ", JSON.stringify(firstCard), JSON.stringify(secondCard));
         if((firstCard != null) && (secondCard != null) && (firstCard.number === secondCard.number))
         {
             if(firstCard === topCard)
@@ -41,6 +39,11 @@ const CardHolder = ({cards, card_size, firstCard, secondCard, setFirstCard, setS
                 setCardList(cardListNew);
                 setTopCard(topCardNew);
                 releaseSelect();
+                if(cardListNew.length === 0)
+                {
+                  // this CardHolder is empty, so dispatch to calculate score
+                  emptyCardHolder(id);
+                }
             }
         }
     }, [secondCard])
@@ -54,17 +57,14 @@ const CardHolder = ({cards, card_size, firstCard, secondCard, setFirstCard, setS
         if(firstCard == null)
         {
             setFirstCard(topCard);
-            console.log("selected first card!");
             return;
         }
         if(firstCard === topCard)
         {
-            console.log("same card selected.");
             return;
         }
         if(firstCard.number !== topCard.number)
         {
-            console.log("different card selected.");
             releaseSelect();
             return;
         }
@@ -75,15 +75,20 @@ const CardHolder = ({cards, card_size, firstCard, secondCard, setFirstCard, setS
         const topCardNew = cardListNew[cardListNew.length - 1];
         setCardList(cardListNew);
         setTopCard(topCardNew);
+        if(cardListNew.length === 0)
+        {
+          // this CardHolder is empty, so dispatch to calculate score
+          emptyCardHolder(id);
+        }
     }
 
     return(
         <div className={styles.cardHolder}>
             {(topCard != null) && (disable === false) && (
-                <Card card={topCard} size={card_size} active={active} pickup={pickCard} />
+              <Card card={topCard} size={card_size} active={active} pickup={pickCard} />
             )}
             {(topCard != null) && (disable === true) && (
-                <BackCard size={card_size} />
+              <BackCard size={card_size} />
             )}
             {(topCard == null) && (
               <BlankCard size={card_size} />
