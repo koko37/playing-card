@@ -30,6 +30,13 @@ const CardHolder = ({cards, card_size, firstCard, secondCard, setFirstCard, setS
     }, [firstCard, topCard])
 
     useEffect(()=>{
+      console.log("cards changed.");
+      setCardList(cards);
+      setTopCard(cards[cards.length - 1]);
+      setActive(false);
+    }, [cards])
+    
+    useEffect(()=>{
         if((firstCard != null) && (secondCard != null) && (firstCard.number === secondCard.number))
         {
             if(firstCard === topCard)
