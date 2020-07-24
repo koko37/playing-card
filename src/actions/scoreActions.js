@@ -1,8 +1,8 @@
-export const EMPTY_HOLDER = "EMPTY_HOLDER"
+export const UPDATE_SCORE = "UPDATE_SCORE"
 export const RESET_HOLDERS = "RESET_HOLDERS"
 
-export const emptyHolder = (holder_no) => ({
-  type: EMPTY_HOLDER,
+export const updateScore = (holder_no) => ({
+  type: UPDATE_SCORE,
   payload: holder_no
 })
 
