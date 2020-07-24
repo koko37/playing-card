@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Container, Jumbotron, Row, Col, Button  } from 'react-bootstrap';
+import { Container, Jumbotron, Row, Col, Button, Alert  } from 'react-bootstrap';
 import CardHolder from "./components/CardHolder"
 import { resetCardPickup } from "./actions/picKActions"
 import { resetCardsStatus } from "./actions/scoreActions"
@@ -22,6 +22,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const App = ({score, centerHoldersStatus, monitorCard, resetCardPickup, resetAllCardsStatus, topCardsCurrent}) => {
   const [cardArrayData, setCardArrayData] = useState([]);
+  const [gameOver, setGameOver] = useState(false);
 
   const card_size = {
       width: "100px", 
@@ -39,6 +40,10 @@ const App = ({score, centerHoldersStatus, monitorCard, resetCardPickup, resetAll
       if(isGameOver(topCardsCurrent) === true)
       {
         console.log("Game over!");
+        setGameOver(true);
+      }
+      else {
+        setGameOver(false);
       }
     }
   }, [monitorCard])
@@ -54,6 +59,8 @@ const App = ({score, centerHoldersStatus, monitorCard, resetCardPickup, resetAll
 
   return (
     <Container>
+      { gameOver && (<Alert variant="danger" className="mt-2">Game over!</Alert>) }
+
       <Jumbotron className="mt-3">
         <div className="d-flex justify-content-between align-items-center border-bottom border-primary mb-2">
           <h1 className="text-primary">60K Points</h1>
