@@ -17,7 +17,7 @@ export default function scoreReducer(state = initialState, action) {
       Object.assign(blankHoldersNew, state.blankHolders);
       Object.assign(newCenterRowsState, state.centerRowsDisableState);
       var newScore = state.score + ((action.payload < 10) ? 1000 : 10000);
-      console.log("[scoreReducer] update score. ", action.payload, newScore);
+      // console.log("[scoreReducer] update score. ", action.payload, newScore);
 
       blankHoldersNew.push(action.payload);
       // check whether pair holder is already empty?
@@ -43,7 +43,7 @@ export default function scoreReducer(state = initialState, action) {
       }
   
     case actions.RESET_CARDS_STATUS:
-      console.log("[scoreReducer] reset card status.", state.blankHolders);
+      // console.log("[scoreReducer] reset card status.", state.blankHolders);
       return initialState;
       
     default:

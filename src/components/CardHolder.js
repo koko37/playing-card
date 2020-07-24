@@ -31,14 +31,14 @@ const CardHolder = ({cards, card_size, firstCard, secondCard, setFirstCard, setS
   }, [firstCard, topCard])
 
   useEffect(()=>{
+    setActive(false);
     setCardList(cards);
     setTopCard(cards[cards.length - 1]);
-    setActive(false);
   }, [cards])
   
   useEffect(() => {
-    saveTopCard(id, (disable === true ? null : topCard));
-  }, [topCard]);
+    saveTopCard(id, (disable === true ? undefined : topCard));
+  }, [topCard, disable]);
 
   const removeTopCard = () => {
     const cardListNew = cardList.slice(0, cardList.length-1);

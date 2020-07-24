@@ -50,7 +50,7 @@ export function swapTwoElement(numberArray, firstIndex, secondIndex) {
 
 export function isGameOver(cardArray) {
   let i, j;
-  if(cardArray === undefined)
+  if(!cardArray)
   {
     return true;
   }
@@ -59,7 +59,7 @@ export function isGameOver(cardArray) {
   j = 0;
   for(i=0; i<cardArray.length; i++)
   {
-    if(cardArray[i] == null)
+    if(!cardArray[i])
     {
       j++;
     }
@@ -73,14 +73,14 @@ export function isGameOver(cardArray) {
   // check same number exists now ?
   for(i=0; i<cardArray.length; i++)
   {
-    if(cardArray[i] == null)
+    if(!cardArray[i])
     {
       continue;
     }
 
     for(j=i+1; j<cardArray.length; j++)
     {
-      if(cardArray[j] == null)
+      if(!cardArray[j])
       {
         continue;
       }

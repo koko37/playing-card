@@ -11,7 +11,8 @@ import "./styles/app.css"
 const mapStateToProps = (state) => ({
   score: state.score.score,
   centerHoldersStatus: state.score.centerRowsDisableState,
-  monitorCard: state.pickup.secondCard,
+  firstCard: state.pickup.firstCard,
+  secondCard: state.pickup.secondCard,
   topCardsCurrent: state.score.topCards
 })
 
@@ -20,7 +21,7 @@ const mapDispatchToProps = (dispatch) => ({
   resetAllCardsStatus: () => dispatch(resetCardsStatus())
 })
 
-const App = ({score, centerHoldersStatus, monitorCard, resetCardPickup, resetAllCardsStatus, topCardsCurrent}) => {
+const App = ({score, centerHoldersStatus, firstCard, secondCard, resetCardPickup, resetAllCardsStatus, topCardsCurrent}) => {
   const [cardArrayData, setCardArrayData] = useState([]);
   const [gameOver, setGameOver] = useState(false);
 
@@ -34,19 +35,22 @@ const App = ({score, centerHoldersStatus, monitorCard, resetCardPickup, resetAll
   }, [])
 
   useEffect(() => {
-    if(monitorCard == null)
+    if(score > 0)
     {
-      // check if game is over
-      if(isGameOver(topCardsCurrent) === true)
+      if((secondCard == null) && (firstCard == null) && (gameOver === false))
       {
-        console.log("Game over!");
-        setGameOver(true);
-      }
-      else {
-        setGameOver(false);
+        // check if game is over
+        if(isGameOver(topCardsCurrent) === true)
+        {
+          console.log("Game over!");
+          setGameOver(true);
+        }
+        else {
+          setGameOver(false);
+        }
       }
     }
-  }, [monitorCard])
+  }, [score, topCardsCurrent])
 
   const onClickRestart = () => {
     if(window.confirm("Are you sure to restart this game?") === true)
@@ -54,6 +58,7 @@ const App = ({score, centerHoldersStatus, monitorCard, resetCardPickup, resetAll
       setCardArrayData(initCardArray());
       resetCardPickup();
       resetAllCardsStatus();
+      setGameOver(false);
     }
   }
 
