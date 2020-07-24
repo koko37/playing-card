@@ -4,11 +4,13 @@ export const initialState = {
   score: 0,
   centerRowsDisableState: [true, true, true, true, true],
   blankHolders: [],
+  topCards: new Array(16)
 }
 
 export default function scoreReducer(state = initialState, action) {
   var newCenterRowsState = [];
   var blankHoldersNew = [];
+  var topCardsNew = [];
 
   switch(action.type) {
     case actions.UPDATE_SCORE:
@@ -26,21 +28,19 @@ export default function scoreReducer(state = initialState, action) {
         newCenterRowsState[action.payload % 5] = false;
       }
       return {
+        ...state,
         score: newScore,
         centerRowsDisableState: newCenterRowsState,
         blankHolders: blankHoldersNew,
       }
 
-/*      
     case actions.SAVE_TOP_CARD_STATUS:
-      console.log("[scoreReducer] save top card.");
       Object.assign(topCardsNew, state.topCards);
       topCardsNew[action.payload.id] = action.payload.cardData;
       return {
+        ...state,
         topCards: topCardsNew,
-        ...state
-      }*/
-
+      }
   
     case actions.RESET_CARDS_STATUS:
       console.log("[scoreReducer] reset card status.", state.blankHolders);

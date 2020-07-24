@@ -4,7 +4,7 @@ import { Container, Jumbotron, Row, Col, Button  } from 'react-bootstrap';
 import CardHolder from "./components/CardHolder"
 import { resetCardPickup } from "./actions/picKActions"
 import { resetCardsStatus } from "./actions/scoreActions"
-import initCardArray from "./utils/card"
+import initCardArray, { isGameOver } from "./utils/card"
 
 import "./styles/app.css"
 
@@ -12,6 +12,7 @@ const mapStateToProps = (state) => ({
   score: state.score.score,
   centerHoldersStatus: state.score.centerRowsDisableState,
   monitorCard: state.pickup.secondCard,
+  topCardsCurrent: state.score.topCards
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -19,7 +20,7 @@ const mapDispatchToProps = (dispatch) => ({
   resetAllCardsStatus: () => dispatch(resetCardsStatus())
 })
 
-const App = ({score, centerHoldersStatus, monitorCard, resetCardPickup, resetAllCardsStatus}) => {
+const App = ({score, centerHoldersStatus, monitorCard, resetCardPickup, resetAllCardsStatus, topCardsCurrent}) => {
   const [cardArrayData, setCardArrayData] = useState([]);
 
   const card_size = {
@@ -35,7 +36,10 @@ const App = ({score, centerHoldersStatus, monitorCard, resetCardPickup, resetAll
     if(monitorCard == null)
     {
       // check if game is over
-      
+      if(isGameOver(topCardsCurrent) === true)
+      {
+        console.log("Game over!");
+      }
     }
   }, [monitorCard])
 

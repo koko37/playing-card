@@ -48,6 +48,53 @@ export function swapTwoElement(numberArray, firstIndex, secondIndex) {
   numberArray[secondIndex] = c;
 }
 
+export function isGameOver(cardArray) {
+  let i, j;
+  if(cardArray === undefined)
+  {
+    return true;
+  }
+
+  // check all of null ?
+  j = 0;
+  for(i=0; i<cardArray.length; i++)
+  {
+    if(cardArray[i] == null)
+    {
+      j++;
+    }
+  }
+
+  if(j === cardArray.length)
+  {
+    return true;
+  }
+
+  // check same number exists now ?
+  for(i=0; i<cardArray.length; i++)
+  {
+    if(cardArray[i] == null)
+    {
+      continue;
+    }
+
+    for(j=i+1; j<cardArray.length; j++)
+    {
+      if(cardArray[j] == null)
+      {
+        continue;
+      }
+      
+      if(cardArray[i].number === cardArray[j].number)
+      {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
+
 export default function initCardArray(){
   var cardData = new Array(16);
   let cardDataInit = [];
