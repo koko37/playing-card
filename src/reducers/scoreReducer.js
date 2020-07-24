@@ -36,7 +36,7 @@ export default function scoreReducer(state = initialState, action) {
     case actions.SAVE_TOP_CARD_STATUS:
       Object.assign(topCardsNew, state.topCards);
       topCardsNew[action.payload.id] = action.payload.cardData;
-      console.log("top cards :", topCardsNew);
+      console.log("top cards :[", action.payload.id , "]", action.payload.cardData);
       return {
         topCards: topCardsNew,
         ...state

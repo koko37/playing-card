@@ -37,7 +37,7 @@ const CardHolder = ({cards, card_size, firstCard, secondCard, setFirstCard, setS
   }, [cards])
   
   useEffect(() => {
-    saveTopCard(id, topCard);
+    saveTopCard(id, (disable === true ? null : topCard));
   }, [topCard]);
 
   const removeTopCard = () => {

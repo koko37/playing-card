@@ -11,7 +11,7 @@ export const resetCardsStatus = () => ({
   type: RESET_CARDS_STATUS
 })
 
-export const saveTopCardStatus = (id, cardData) => ({
+export const saveTopCardStatus = (id, cardData, disabled) => ({
   type: SAVE_TOP_CARD_STATUS,
   payload: {id, cardData}
 })
