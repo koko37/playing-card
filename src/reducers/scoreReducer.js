@@ -4,19 +4,18 @@ export const initialState = {
   score: 0,
   centerRowsDisableState: [true, true, true, true, true],
   blankHolders: [],
-  topCards: []
 }
 
 export default function scoreReducer(state = initialState, action) {
   var newCenterRowsState = [];
   var blankHoldersNew = [];
-  var topCardsNew = [];
 
   switch(action.type) {
     case actions.UPDATE_SCORE:
       Object.assign(blankHoldersNew, state.blankHolders);
       Object.assign(newCenterRowsState, state.centerRowsDisableState);
       var newScore = state.score + ((action.payload < 10) ? 1000 : 10000);
+      console.log("[scoreReducer] update score. ", action.payload, newScore);
 
       blankHoldersNew.push(action.payload);
       // check whether pair holder is already empty?
@@ -30,19 +29,21 @@ export default function scoreReducer(state = initialState, action) {
         score: newScore,
         centerRowsDisableState: newCenterRowsState,
         blankHolders: blankHoldersNew,
-        ...state
       }
 
+/*      
     case actions.SAVE_TOP_CARD_STATUS:
+      console.log("[scoreReducer] save top card.");
       Object.assign(topCardsNew, state.topCards);
       topCardsNew[action.payload.id] = action.payload.cardData;
-      console.log("top cards :[", action.payload.id , "]", action.payload.cardData);
       return {
         topCards: topCardsNew,
         ...state
-      }
+      }*/
+
   
     case actions.RESET_CARDS_STATUS:
+      console.log("[scoreReducer] reset card status.", state.blankHolders);
       return initialState;
       
     default:

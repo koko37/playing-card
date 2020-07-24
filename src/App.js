@@ -12,7 +12,6 @@ const mapStateToProps = (state) => ({
   score: state.score.score,
   centerHoldersStatus: state.score.centerRowsDisableState,
   monitorCard: state.pickup.secondCard,
-  allTopCards: state.score.topCards
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -20,7 +19,7 @@ const mapDispatchToProps = (dispatch) => ({
   resetAllCardsStatus: () => dispatch(resetCardsStatus())
 })
 
-const App = ({score, centerHoldersStatus, monitorCard, allTopCards, resetCardPickup, resetAllCardsStatus}) => {
+const App = ({score, centerHoldersStatus, monitorCard, resetCardPickup, resetAllCardsStatus}) => {
   const [cardArrayData, setCardArrayData] = useState([]);
 
   const card_size = {
@@ -36,7 +35,7 @@ const App = ({score, centerHoldersStatus, monitorCard, allTopCards, resetCardPic
     if(monitorCard == null)
     {
       // check if game is over
-      console.log(allTopCards);
+      
     }
   }, [monitorCard])
 
