@@ -6,7 +6,7 @@ import BlankCard from "./BlankCard"
 import BackCard from "./BackCard"
 
 import { pickFirstCard, pickSecondCard, resetCardPickup } from "../actions/picKActions"
-import { updateScore } from "../actions/scoreActions"
+import { updateScore, saveTopCardStatus } from "../actions/scoreActions"
 
 const mapStateToProps = (state) => ({
   firstCard: state.pickup.firstCard,
@@ -17,10 +17,11 @@ const mapDispatchToProps = (dispatch) => ({
   setFirstCard: (card) => dispatch(pickFirstCard(card)),
   setSecondCard: (card) => dispatch(pickSecondCard(card)),
   resetCardPickup: () => dispatch(resetCardPickup()),
-  sendUpdateScoreReq: (n) => dispatch(updateScore(n))
+  sendUpdateScoreReq: (n) => dispatch(updateScore(n)),
+  saveTopCard: (id, cardData) => dispatch(saveTopCardStatus(id, cardData))
 })
 
-const CardHolder = ({cards, card_size, firstCard, secondCard, setFirstCard, setSecondCard, resetCardPickup, id, sendUpdateScoreReq, disable=false}) => {
+const CardHolder = ({cards, card_size, firstCard, secondCard, setFirstCard, setSecondCard, resetCardPickup, id, sendUpdateScoreReq, saveTopCard, disable=false}) => {
   const [cardList, setCardList] = useState(cards);
   const [topCard, setTopCard] = useState(cards[cards.length - 1])
   const [active, setActive] = useState(false);
@@ -35,6 +36,10 @@ const CardHolder = ({cards, card_size, firstCard, secondCard, setFirstCard, setS
     setActive(false);
   }, [cards])
   
+  useEffect(() => {
+    saveTopCard(id, topCard);
+  }, [topCard]);
+
   const removeTopCard = () => {
     const cardListNew = cardList.slice(0, cardList.length-1);
     const topCardNew = cardListNew[cardListNew.length - 1];

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Container, Jumbotron, Row, Col, Button  } from 'react-bootstrap';
 import CardHolder from "./components/CardHolder"
 import { resetCardPickup } from "./actions/picKActions"
-import { resetHolders } from "./actions/scoreActions"
+import { resetCardsStatus } from "./actions/scoreActions"
 import initCardArray from "./utils/card"
 
 import "./styles/app.css"
@@ -16,10 +16,10 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   resetCardPickup: () => dispatch(resetCardPickup()),
-  resetHolder: () => dispatch(resetHolders())
+  resetAllCardsStatus: () => dispatch(resetCardsStatus())
 })
 
-const App = ({score, centerHoldersStatus, monitorCard, resetCardPickup, resetHolder}) => {
+const App = ({score, centerHoldersStatus, monitorCard, resetCardPickup, resetAllCardsStatus}) => {
   const [cardArrayData, setCardArrayData] = useState([]);
 
   const card_size = {
@@ -43,7 +43,7 @@ const App = ({score, centerHoldersStatus, monitorCard, resetCardPickup, resetHol
     {
       setCardArrayData(initCardArray());
       resetCardPickup();
-      resetHolder();
+      resetAllCardsStatus();
     }
   }
 

@@ -3,12 +3,14 @@ import * as actions from "../actions/scoreActions"
 export const initialState = {
   score: 0,
   centerRowsDisableState: [true, true, true, true, true],
-  blankHolders: []
+  blankHolders: [],
+  topCards: []
 }
 
 export default function scoreReducer(state = initialState, action) {
   var newCenterRowsState = [];
   var blankHoldersNew = [];
+  var topCardsNew = [];
 
   switch(action.type) {
     case actions.UPDATE_SCORE:
@@ -27,10 +29,20 @@ export default function scoreReducer(state = initialState, action) {
       return {
         score: newScore,
         centerRowsDisableState: newCenterRowsState,
-        blankHolders: blankHoldersNew
+        blankHolders: blankHoldersNew,
+        ...state
       }
 
-    case actions.RESET_HOLDERS:
+    case actions.SAVE_TOP_CARD_STATUS:
+      Object.assign(topCardsNew, state.topCards);
+      topCardsNew[action.payload.id] = action.payload.cardData;
+      console.log("top cards :", topCardsNew);
+      return {
+        topCards: topCardsNew,
+        ...state
+      }
+  
+    case actions.RESET_CARDS_STATUS:
       return initialState;
       
     default:
