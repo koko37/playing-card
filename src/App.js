@@ -52,14 +52,15 @@ const App = ({score, centerHoldersStatus, monitorCard, allTopCards, resetCardPic
   return (
     <Container>
       <Jumbotron className="mt-3">
-        <div className="d-flex justify-content-between align-items-center">
-          <h1 className="text-primary">Playing card game</h1>
+        <div className="d-flex justify-content-between align-items-center border-bottom border-primary mb-2">
+          <h1 className="text-primary">60K Points</h1>
           <Button variant="danger" onClick={() => onClickRestart()}>New game</Button>
         </div>
         <Row>
-          <Col md="10" sm="10" lg="10">
-            <p className="lead mb-0 text-info">This is card game by React</p>
-            <p className="lead mt-0 text-info">Please select double card with same number. Then it will disappear.</p>
+          <Col md="10" sm="10" lg="10" className="mb-3">
+            <p className="lead my-0 text-muted">This is a card game by React</p>
+            <p className="lead my-0 text-muted">Please select a pair of cards with same number. Then it will disappear.</p>
+            <p className="lead my-0 text-muted">It will be over if you can not find a pair of cards any more.</p>
           </Col>
 
           <Col md="2" sm="2" lg="2">
