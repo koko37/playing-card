@@ -9,9 +9,9 @@ export const initialState = {
 export default function scoreReducer(state = initialState, action) {
   var newCenterRowsState = [];
   var blankHoldersNew = [];
+
   switch(action.type) {
     case actions.UPDATE_SCORE:
-      console.log("update score: ", action.payload);
       Object.assign(blankHoldersNew, state.blankHolders);
       Object.assign(newCenterRowsState, state.centerRowsDisableState);
       var newScore = state.score + ((action.payload < 10) ? 1000 : 10000);

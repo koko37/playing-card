@@ -20,7 +20,7 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const App = ({score, centerHoldersStatus, monitorCard, resetCardPickup, resetHolder}) => {
-  const [cardArrayData, setCardArray] = useState([]);
+  const [cardArrayData, setCardArrayData] = useState([]);
 
   const card_size = {
       width: "100px", 
@@ -28,20 +28,20 @@ const App = ({score, centerHoldersStatus, monitorCard, resetCardPickup, resetHol
   }
 
   useEffect(() => {
-    setCardArray(initCardArray());
+    setCardArrayData(initCardArray());
   }, [])
 
   useEffect(() => {
     if(monitorCard == null)
     {
-      console.log("card pickup");
+      // check if game is over
     }
   }, [monitorCard])
 
   const onClickRestart = () => {
     if(window.confirm("Are you sure to restart this game?") === true)
     {
-      setCardArray(initCardArray());
+      setCardArrayData(initCardArray());
       resetCardPickup();
       resetHolder();
     }

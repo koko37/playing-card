@@ -17,10 +17,10 @@ const mapDispatchToProps = (dispatch) => ({
   setFirstCard: (card) => dispatch(pickFirstCard(card)),
   setSecondCard: (card) => dispatch(pickSecondCard(card)),
   resetCardPickup: () => dispatch(resetCardPickup()),
-  updateScore: (n) => dispatch(updateScore(n))
+  sendUpdateScoreReq: (n) => dispatch(updateScore(n))
 })
 
-const CardHolder = ({cards, card_size, firstCard, secondCard, setFirstCard, setSecondCard, resetCardPickup, id, emptyCardHolder, disable=false}) => {
+const CardHolder = ({cards, card_size, firstCard, secondCard, setFirstCard, setSecondCard, resetCardPickup, id, sendUpdateScoreReq, disable=false}) => {
   const [cardList, setCardList] = useState(cards);
   const [topCard, setTopCard] = useState(cards[cards.length - 1])
   const [active, setActive] = useState(false);
@@ -35,24 +35,28 @@ const CardHolder = ({cards, card_size, firstCard, secondCard, setFirstCard, setS
     setActive(false);
   }, [cards])
   
+  const removeTopCard = () => {
+    const cardListNew = cardList.slice(0, cardList.length-1);
+    const topCardNew = cardListNew[cardListNew.length - 1];
+    setCardList(cardListNew);
+    setTopCard(topCardNew);
+    // this CardHolder is empty, so dispatch to calculate score
+    if(cardListNew.length === 0)
+    {
+      sendUpdateScoreReq(id);
+    }
+  }
+
   useEffect(()=>{
     if((firstCard != null) && (secondCard != null) && (firstCard.number === secondCard.number))
     {
       if(firstCard === topCard)
       {
-        const cardListNew = cardList.slice(0, cardList.length-1);
-        const topCardNew = cardListNew[cardListNew.length - 1];
-        setCardList(cardListNew);
-        setTopCard(topCardNew);
+        removeTopCard();
         resetCardPickup();
-        // this CardHolder is empty, so dispatch to calculate score
-        if(cardListNew.length === 0)
-        {
-          updateScore(id);
-        }
       }
     }
-  }, [secondCard])
+  }, [secondCard]);
 
   const pickCard = (card) => {
     // check validation
@@ -62,7 +66,6 @@ const CardHolder = ({cards, card_size, firstCard, secondCard, setFirstCard, setS
     }
     if(firstCard == null)
     {
-      console.log("set first card");
       setFirstCard(topCard);
       return;
     }
@@ -75,19 +78,9 @@ const CardHolder = ({cards, card_size, firstCard, secondCard, setFirstCard, setS
       resetCardPickup();
       return;
     }
-
-    console.log("set second card");
     // remove seecond card
     setSecondCard(topCard);
-    const cardListNew = cardList.slice(0, cardList.length-1);
-    const topCardNew = cardListNew[cardListNew.length - 1];
-    setCardList(cardListNew);
-    setTopCard(topCardNew);
-    if(cardListNew.length === 0)
-    {
-      // this CardHolder is empty, so dispatch to calculate score
-      updateScore(id);
-    }
+    removeTopCard();
   }
 
   return(
