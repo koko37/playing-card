@@ -30,11 +30,6 @@ const App = ({score, centerHoldersStatus, firstCard, secondCard, resetCardPickup
       height: "120px"
   }
 
-  const card_size2 = {
-    width: "120px", 
-    height: "150px"
-}
-
   useEffect(() => {
     setCardArrayData(initCardArray());
   }, [])
@@ -118,7 +113,7 @@ const App = ({score, centerHoldersStatus, firstCard, secondCard, resetCardPickup
                 </Col>
               </Row>
               <Row className="d-flex justify-content-center">
-                <CardHolder cards={cardArrayData[15]} card_size={card_size2} id={15} key={15} />
+                <CardHolder cards={cardArrayData[15]} card_size={card_size} id={15} key={15} />
               </Row>
             </div>
           )
