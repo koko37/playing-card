@@ -5,11 +5,6 @@ const defaultHolderState = {
   cardsData: [],
 };
 export const initialState = {
-
-  centerRowsDisableState: [true, true, true, true, true],
-  blankHolders: [],
-  topCards: new Array(16),
-
   score: 0,
   gameOver: false,
   holdersState: [],
@@ -21,46 +16,39 @@ export default function scoreReducer(state = initialState, action) {
   var cardsDataTemp = [];
   var removedCard;
 
-  var newCenterRowsState = [];
-  var blankHoldersNew = [];
-  var topCardsNew = [];
-
-
   switch(action.type) {
+    /**
+     * update score
+     */
     case actions.UPDATE_SCORE:
-      Object.assign(blankHoldersNew, state.blankHolders);
-      Object.assign(newCenterRowsState, state.centerRowsDisableState);
-      var newScore = state.score + ((action.payload < 10) ? 1000 : 10000);
-      // console.log("[scoreReducer] update score. ", action.payload, newScore);
+      return state;
 
-      blankHoldersNew.push(action.payload);
-      // check whether pair holder is already empty?
-      var pairId = blankHoldersNew.indexOf( (action.payload < 5) ? (action.payload+5) : (action.payload-5));
-      // if two pair holder are opened already, then open the center holder.
-      if(pairId !== -1)
-      {
-        newCenterRowsState[action.payload % 5] = false;
+    /**
+     * update center card enable state
+     */
+    case actions.OPEN_CENTER_CARD:
+      for(let i=0; i<5; i++) {
+        if((state.holdersState[i].cardsData.length === 0) && 
+        (state.holdersState[i+5].cardsData.length === 0)) {
+          if(state.holdersState[i+10].enable === false) {
+            console.log("[scoreReducer] open center card.", 
+              state.holdersState[i+10].cardsData[state.holdersState[i+10].cardsData.length-1]);
+            return {
+              ...state,
+              holdersState: [...state.holdersState.slice(0, i+10),
+                {...state.holdersState[i+10], enable: true},
+              ...state.holdersState.slice(i+11,state.holdersState.length)]
+            }
+          }
+        }
       }
-      return {
-        ...state,
-        score: newScore,
-        centerRowsDisableState: newCenterRowsState,
-        blankHolders: blankHoldersNew,
-      }
+      return state;
 
-    case actions.SAVE_TOP_CARD_STATUS:
-      Object.assign(topCardsNew, state.topCards);
-      topCardsNew[action.payload.id] = action.payload.cardData;
-      return {
-        ...state,
-        topCards: topCardsNew,
-      }
-  
       /**
        *  reset all game status
        */
     case actions.RESET_CARDS_STATUS:
-      // console.log("[scoreReducer] Reset card status.");
+      console.log("[scoreReducer] Reset game status.");
       var holderStatesTemp = [];
       var holderStateTemp;
       let i;
@@ -99,7 +87,7 @@ export default function scoreReducer(state = initialState, action) {
      * pickup first card
      */
     case actions.PICKUP_FIRST_CARD:
-      console.log("[scoreReducer] pickup first");
+      console.log("[scoreReducer] pickup first.");
       return {
         ...state,
         firstSelectedId: action.payload
@@ -109,7 +97,7 @@ export default function scoreReducer(state = initialState, action) {
      * pickup second card
      */
     case actions.PICKUP_SECOND_CARD:
-      console.log("[scoreReducer] pickup second");
+      console.log("[scoreReducer] pickup second.");
       return {
         ...state,
         secondSelectedId: action.payload
