@@ -1,10 +1,19 @@
 import * as actions from "../actions/scoreActions"
 
+const defaultHolderState = {
+  enable: false,
+  cardsData: [],
+  isFirstSelected: false,
+  isSecondSelected: false,
+};
+
 export const initialState = {
   score: 0,
   centerRowsDisableState: [true, true, true, true, true],
   blankHolders: [],
-  topCards: new Array(16)
+  topCards: new Array(16),
+
+  holderState: []
 }
 
 export default function scoreReducer(state = initialState, action) {
@@ -43,8 +52,25 @@ export default function scoreReducer(state = initialState, action) {
       }
   
     case actions.RESET_CARDS_STATUS:
-      // console.log("[scoreReducer] reset card status.", state.blankHolders);
-      return initialState;
+      // console.log("[scoreReducer] Reset card status.");
+      var holderStatesTemp = [];
+      var holderStateTemp;
+      let i;
+      for(i=0; i<10; i++) {
+        holderStateTemp = {};
+        holderStateTemp= defaultHolderState;
+        holderStateTemp.cardsData = action.payload[i];
+        if((i<10) || (i>14))
+        {
+          holderStateTemp.enable = true;
+        }
+
+        holderStatesTemp.push(holderStateTemp);
+      }
+      return {
+        ...state,
+        holderState: holderStatesTemp
+      }
       
     default:
       return state;

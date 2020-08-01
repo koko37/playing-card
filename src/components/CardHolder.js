@@ -5,98 +5,30 @@ import Card from "./Card"
 import BlankCard from "./BlankCard"
 import BackCard from "./BackCard"
 
-import { pickFirstCard, pickSecondCard, resetCardPickup } from "../actions/picKActions"
 import { updateScore, saveTopCardStatus } from "../actions/scoreActions"
 
 const mapStateToProps = (state) => ({
-  firstCard: state.pickup.firstCard,
-  secondCard: state.pickup.secondCard
+  holderState: state.score.holderState
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  setFirstCard: (card) => dispatch(pickFirstCard(card)),
-  setSecondCard: (card) => dispatch(pickSecondCard(card)),
-  resetCardPickup: () => dispatch(resetCardPickup()),
-  sendUpdateScoreReq: (n) => dispatch(updateScore(n)),
-  saveTopCard: (id, cardData) => dispatch(saveTopCardStatus(id, cardData))
 })
 
-const CardHolder = ({cards, card_size, firstCard, secondCard, setFirstCard, setSecondCard, resetCardPickup, id, sendUpdateScoreReq, saveTopCard, disable=false}) => {
-  const [cardList, setCardList] = useState(cards);
-  const [topCard, setTopCard] = useState(cards[cards.length - 1])
-  const [active, setActive] = useState(false);
+const CardHolder = ({id, card_size, holderState}) => {
 
-  useEffect(()=>{
-      setActive(firstCard === topCard);
-  }, [firstCard, topCard])
-
-  useEffect(()=>{
-    setActive(false);
-    setCardList(cards);
-    setTopCard(cards[cards.length - 1]);
-  }, [cards])
-  
-  useEffect(() => {
-    saveTopCard(id, (disable === true ? undefined : topCard));
-  }, [topCard, disable]);
-
-  const removeTopCard = () => {
-    const cardListNew = cardList.slice(0, cardList.length-1);
-    const topCardNew = cardListNew[cardListNew.length - 1];
-    setCardList(cardListNew);
-    setTopCard(topCardNew);
-    // this CardHolder is empty, so dispatch to calculate score
-    if(cardListNew.length === 0)
-    {
-      sendUpdateScoreReq(id);
-    }
-  }
-
-  useEffect(()=>{
-    if((firstCard != null) && (secondCard != null) && (firstCard.number === secondCard.number))
-    {
-      if(firstCard === topCard)
-      {
-        removeTopCard();
-        resetCardPickup();
-      }
-    }
-  }, [secondCard]);
-
-  const pickCard = (card) => {
-    // check validation
-    if(cardList.length ===0)
-    {
-      return
-    }
-    if(firstCard == null)
-    {
-      setFirstCard(topCard);
-      return;
-    }
-    if(firstCard === topCard)
-    {
-      return;
-    }
-    if(firstCard.number !== topCard.number)
-    {
-      resetCardPickup();
-      return;
-    }
-    // remove seecond card
-    setSecondCard(topCard);
-    removeTopCard();
-  }
+  const cardsCount = holderState[id].cardData.length;
+  const topCard = cardsCount > 0 ? holderState[id].cardData[cardsCount-1] : null;
+  const active = holderState[id].isFirstSelected;
 
   return(
     <div className={styles.cardHolder}>
-      {(topCard != null) && (disable === false) && (
-        <Card card={topCard} size={card_size} active={active} pickup={pickCard} />
+      {((holderState[id].enable === true) && (cardsCount > 0)) && (
+        <Card card={topCard} size={card_size} active={active}/>
       )}
-      {(topCard != null) && (disable === true) && (
+      {(holderState[id].enable === false) && (cardsCount > 0) && (
         <BackCard size={card_size} />
       )}
-      {(topCard == null) && (
+      {(cardsCount === 0) && (
         <BlankCard size={card_size} />
       )}
     </div>

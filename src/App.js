@@ -13,16 +13,17 @@ const mapStateToProps = (state) => ({
   centerHoldersStatus: state.score.centerRowsDisableState,
   firstCard: state.pickup.firstCard,
   secondCard: state.pickup.secondCard,
-  topCardsCurrent: state.score.topCards
+  topCardsCurrent: state.score.topCards,
+
+  holderState: state.score.holderState
 })
 
 const mapDispatchToProps = (dispatch) => ({
   resetCardPickup: () => dispatch(resetCardPickup()),
-  resetAllCardsStatus: () => dispatch(resetCardsStatus())
+  resetAllCardsStatus: (cardArray) => dispatch(resetCardsStatus(cardArray))
 })
 
-const App = ({score, centerHoldersStatus, firstCard, secondCard, resetCardPickup, resetAllCardsStatus, topCardsCurrent}) => {
-  const [cardArrayData, setCardArrayData] = useState([]);
+const App = ({holderState, resetAllCardsStatus    ,      score, centerHoldersStatus, firstCard, secondCard, resetCardPickup, topCardsCurrent}) => {
   const [gameOver, setGameOver] = useState(false);
 
   const card_size = {
@@ -31,34 +32,13 @@ const App = ({score, centerHoldersStatus, firstCard, secondCard, resetCardPickup
   }
 
   useEffect(() => {
-    setCardArrayData(initCardArray());
+    resetAllCardsStatus(initCardArray());
   }, [])
-
-  useEffect(() => {
-    if(score > 0)
-    {
-      if((secondCard == null) && (firstCard == null) && (gameOver === false))
-      {
-        // check if game is over
-        if(isGameOver(topCardsCurrent) === true)
-        {
-          console.log("Game over!");
-          setGameOver(true);
-        }
-        else {
-          setGameOver(false);
-        }
-      }
-    }
-  }, [score, topCardsCurrent])
 
   const onClickRestart = () => {
     if(window.confirm("Are you sure to restart this game?") === true)
     {
-      setCardArrayData(initCardArray());
-      resetCardPickup();
-      resetAllCardsStatus();
-      setGameOver(false);
+      resetAllCardsStatus(initCardArray());
     }
   }
 
@@ -83,37 +63,37 @@ const App = ({score, centerHoldersStatus, firstCard, secondCard, resetCardPickup
           </Col>
         </Row>
         {
-          (cardArrayData.length > 0) && (
+          (holderState.length > 0) && (
             <div>
               <Row>
                 <Col className="d-flex justify-content-between mb-2 px-5">
-                  <CardHolder cards={cardArrayData[0]} card_size={card_size} id={0} key={0}/>
-                  <CardHolder cards={cardArrayData[1]} card_size={card_size} id={1} key={1}/>
-                  <CardHolder cards={cardArrayData[2]} card_size={card_size} id={2} key={2}/>
-                  <CardHolder cards={cardArrayData[3]} card_size={card_size} id={3} key={3}/>
-                  <CardHolder cards={cardArrayData[4]} card_size={card_size} id={4} key={4}/>
+                  <CardHolder card_size={card_size} id={0} key={0}/>
+                  <CardHolder card_size={card_size} id={1} key={1}/>
+                  <CardHolder card_size={card_size} id={2} key={2}/>
+                  <CardHolder card_size={card_size} id={3} key={3}/>
+                  <CardHolder card_size={card_size} id={4} key={4}/>
                 </Col>
               </Row>
               <Row>
                 <Col className="d-flex justify-content-between mb-2 px-5">
-                  <CardHolder cards={cardArrayData[10]} card_size={card_size} id={10} key={10} disable={centerHoldersStatus[0]} />
-                  <CardHolder cards={cardArrayData[11]} card_size={card_size} id={11} key={11} disable={centerHoldersStatus[1]} />
-                  <CardHolder cards={cardArrayData[12]} card_size={card_size} id={12} key={12} disable={centerHoldersStatus[2]} />
-                  <CardHolder cards={cardArrayData[13]} card_size={card_size} id={13} key={13} disable={centerHoldersStatus[3]} />
-                  <CardHolder cards={cardArrayData[14]} card_size={card_size} id={14} key={14} disable={centerHoldersStatus[4]} />
+                  <CardHolder card_size={card_size} id={10} key={10}/>
+                  <CardHolder card_size={card_size} id={11} key={11}/>
+                  <CardHolder card_size={card_size} id={12} key={12}/>
+                  <CardHolder card_size={card_size} id={13} key={13}/>
+                  <CardHolder card_size={card_size} id={14} key={14}/>
                 </Col>
               </Row>
               <Row>
                 <Col className="d-flex justify-content-between mb-2 px-5">
-                  <CardHolder cards={cardArrayData[5]} card_size={card_size} id={5} key={5}/>
-                  <CardHolder cards={cardArrayData[6]} card_size={card_size} id={6} key={6}/>
-                  <CardHolder cards={cardArrayData[7]} card_size={card_size} id={7} key={7}/>
-                  <CardHolder cards={cardArrayData[8]} card_size={card_size} id={8} key={8}/>
-                  <CardHolder cards={cardArrayData[9]} card_size={card_size} id={9} key={9}/>
+                  <CardHolder card_size={card_size} id={5} key={5}/>
+                  <CardHolder card_size={card_size} id={6} key={6}/>
+                  <CardHolder card_size={card_size} id={7} key={7}/>
+                  <CardHolder card_size={card_size} id={8} key={8}/>
+                  <CardHolder card_size={card_size} id={9} key={9}/>
                 </Col>
               </Row>
               <Row className="d-flex justify-content-center">
-                <CardHolder cards={cardArrayData[15]} card_size={card_size} id={15} key={15} />
+                <CardHolder card_size={card_size} id={15} key={15} />
               </Row>
             </div>
           )

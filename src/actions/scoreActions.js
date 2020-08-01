@@ -7,8 +7,9 @@ export const updateScore = (holder_no) => ({
   payload: holder_no
 })
 
-export const resetCardsStatus = () => ({
-  type: RESET_CARDS_STATUS
+export const resetCardsStatus = (cardArrayData) => ({
+  type: RESET_CARDS_STATUS,
+  payload: cardArrayData
 })
 
 export const saveTopCardStatus = (id, cardData) => ({
