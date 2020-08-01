@@ -18,9 +18,13 @@ export const initialState = {
 }
 
 export default function scoreReducer(state = initialState, action) {
+  var cardsDataTemp = [];
+  var removedCard;
+
   var newCenterRowsState = [];
   var blankHoldersNew = [];
   var topCardsNew = [];
+
 
   switch(action.type) {
     case actions.UPDATE_SCORE:
@@ -84,6 +88,7 @@ export default function scoreReducer(state = initialState, action) {
      * reset card pickup status
      */
     case actions.RESET_PICKUP_CARD:
+      console.log("[scoreReducer] reset pickup state.");
       return {
         ...state,
         firstSelectedId: -1,
@@ -91,18 +96,57 @@ export default function scoreReducer(state = initialState, action) {
       }
 
     /**
-     * select one card
+     * pickup first card
      */
-    case actions.PICKUP_CARD:
-      if(state.firstSelectedId === -1) {
-        return {
-        ...state,
-        firstSelectedId: action.payload,
-        }
-      }
+    case actions.PICKUP_FIRST_CARD:
+      console.log("[scoreReducer] pickup first");
       return {
         ...state,
-        secondSelectedId: action.payload,
+        firstSelectedId: action.payload
+      }
+
+    /**
+     * pickup second card
+     */
+    case actions.PICKUP_SECOND_CARD:
+      console.log("[scoreReducer] pickup second");
+      return {
+        ...state,
+        secondSelectedId: action.payload
+      }
+
+    /**
+     * remove first card
+     */
+    case actions.REMOVE_FIRST_CARD:
+      cardsDataTemp = []
+      Object.assign(cardsDataTemp, state.holdersState[action.payload].cardsData);
+      removedCard = cardsDataTemp.pop();
+      console.log("[scoreReducer] removed first.", removedCard);
+
+      return {
+        ...state,
+        firstSelectedId: -1,
+        holdersState: [...state.holdersState.slice(0, action.payload),
+        {...state.holdersState[action.payload], cardsData: cardsDataTemp},
+      ...state.holdersState.slice(action.payload+1,state.holdersState.length)]
+      }
+
+    /**
+     * remove second card
+     */
+    case actions.REMOVE_SECOND_CARD:
+      cardsDataTemp = [];
+      Object.assign(cardsDataTemp, state.holdersState[action.payload].cardsData);
+      removedCard = cardsDataTemp.pop();
+      console.log("[scoreReducer] removed second.", removedCard);
+
+      return {
+        ...state,
+        secondSelectedId: -1,
+        holdersState: [...state.holdersState.slice(0, action.payload),
+        {...state.holdersState[action.payload], cardsData: cardsDataTemp},
+      ...state.holdersState.slice(action.payload+1,state.holdersState.length)]
       }
 
     default:
