@@ -29,8 +29,8 @@ export default ({id, card, size, active, pickup}) => {
     const card_style = {
         width: width,
         height: height,
-        color: (card.flower === "h" || card.flower === "d") ? "red" : "black",
-        backgroundImage: `url(${getImage(card.flower)})`,
+        color: (card.suit === "h" || card.suit === "d") ? "red" : "black",
+        backgroundImage: `url(${getImage(card.suit)})`,
         backgroundRepeat: "no-repeat",
         backgroundPosition: "10% 10%",
         backgroundSize: "20% 15%",

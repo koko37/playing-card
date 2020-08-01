@@ -1,20 +1,20 @@
 export function getCardFromNumber(n) {
-  let flower, number, value;
+  let suit, number, value;
   switch(Math.floor((n-1)/13)) {
     case 0:
-      flower = "h";
+      suit = "h";
       break;
     case 1:
-      flower = "s";
+      suit = "s";
       break;
     case 2:
-      flower = "d";
+      suit = "d";
       break;
     case 3:
-      flower = "c";
+      suit = "c";
       break;
     default:
-      flower = ""
+      suit = ""
       break;
   }
   number = ((n-1) % 13) + 1;
@@ -29,7 +29,7 @@ export function getCardFromNumber(n) {
   } else {
     value = number;
   }
-  return {flower: flower, number: value}
+  return {suit: suit, number: value}
 }
 
 export function swapTwoElement(numberArray, firstIndex, secondIndex) {

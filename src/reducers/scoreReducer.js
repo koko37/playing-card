@@ -11,6 +11,7 @@ export const initialState = {
   holdersState: [],
   firstSelectedId: -1,
   secondSelectedId: -1,
+  scoreHistory: []
 }
 
 export default function scoreReducer(state = initialState, action) {
@@ -73,6 +74,7 @@ export default function scoreReducer(state = initialState, action) {
      */
     case actions.PICKUP_SECOND_CARD:
       if(state.firstSelectedId === action.payload) {
+        // ignore same card selection
         return state;
       }
       console.log("[Action] pickup second.");
@@ -166,6 +168,24 @@ export default function scoreReducer(state = initialState, action) {
         }
       }
       return state;
+
+      /**
+       * append game history
+       */
+    case actions.APPEND_SCORE_HISTORY:
+      return {
+        ...state,
+        scoreHistory: [...state.scoreHistory, action.payload]
+      }
+
+      /**
+       * clear game history
+       */
+    case actions.CLEAR_SCORE_HISTORY:
+      return {
+        ...state,
+        scoreHistory: []
+      }
 
     default:
       return state;

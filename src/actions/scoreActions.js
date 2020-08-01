@@ -6,6 +6,8 @@ export const REMOVE_FIRST_CARD = "REMOVE_FIRST_CARD"
 export const REMOVE_SECOND_CARD = "REMOVE_SECOND_CARD"
 export const OPEN_CENTER_CARD = "OPEN_CENTER_CARD"
 export const CHECK_GAME_OVER = "CHECK_GAME_OVER"
+export const APPEND_SCORE_HISTORY ="APPEND_SCORE_HISTORY"
+export const CLEAR_SCORE_HISTORY = "CLEAR_SCORE_HISTORY"
 
 export const resetCardsStatus = (cardArrayData) => ({
   type: RESET_CARDS_STATUS,
@@ -35,4 +37,11 @@ export const openCenterCard = () => ({
 })
 export const checkGameOver = () => ({
   type: CHECK_GAME_OVER,
+})
+export const appendScoreHistory = (history) => ({
+  type: APPEND_SCORE_HISTORY,
+  payload: history
+})
+export const clearScoreHistory = () => ({
+  type: CLEAR_SCORE_HISTORY
 })
