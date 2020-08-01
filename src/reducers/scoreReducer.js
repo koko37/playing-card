@@ -156,7 +156,7 @@ export default function scoreReducer(state = initialState, action) {
      */
     case actions.CHECK_GAME_OVER:
       if(isGameOver(state.holdersState)) {
-        console.log("[Action] game over!");
+        console.log("[Action] GAME OVER!");
         return {
           ...state,
           gameOver: true

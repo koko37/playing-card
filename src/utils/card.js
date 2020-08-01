@@ -56,13 +56,22 @@ export function isGameOver(cardArray) {
     if(cardArray[i].cardsData.length === 0) {
       continue;
     }
+    if(cardArray[i].enable === false) {
+      continue;
+    }
+
     for(j=i+1; j<cardArray.length; j++) {
       if(cardArray[j].cardsData.length === 0) {
+        continue;
+      }
+      if(cardArray[j].enable === false) {
         continue;
       }
       
       if(cardArray[i].cardsData[cardArray[i].cardsData.length-1].number === 
         cardArray[j].cardsData[cardArray[j].cardsData.length-1].number) {
+          console.log("[same card]",i, cardArray[i].cardsData[cardArray[i].cardsData.length-1] ,
+            j, cardArray[j].cardsData[cardArray[j].cardsData.length-1])
         return false;
       }
     }
