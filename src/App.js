@@ -1,30 +1,24 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Container, Jumbotron, Row, Col, Button, Alert  } from 'react-bootstrap';
 import CardHolder from "./components/CardHolder"
-import { resetCardPickup } from "./actions/picKActions"
+
 import { resetCardsStatus } from "./actions/scoreActions"
-import initCardArray, { isGameOver } from "./utils/card"
+import initCardArray from "./utils/card"
 
 import "./styles/app.css"
 
 const mapStateToProps = (state) => ({
   score: state.score.score,
-  centerHoldersStatus: state.score.centerRowsDisableState,
-  firstCard: state.pickup.firstCard,
-  secondCard: state.pickup.secondCard,
-  topCardsCurrent: state.score.topCards,
-
-  holderState: state.score.holderState
+  holdersState: state.score.holdersState,
+  gameOver: state.score.gameOver
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  resetCardPickup: () => dispatch(resetCardPickup()),
   resetAllCardsStatus: (cardArray) => dispatch(resetCardsStatus(cardArray))
 })
 
-const App = ({holderState, resetAllCardsStatus    ,      score, centerHoldersStatus, firstCard, secondCard, resetCardPickup, topCardsCurrent}) => {
-  const [gameOver, setGameOver] = useState(false);
+const App = ({holdersState, score, gameOver, resetAllCardsStatus}) => {
 
   const card_size = {
       width: "100px", 
@@ -63,7 +57,7 @@ const App = ({holderState, resetAllCardsStatus    ,      score, centerHoldersSta
           </Col>
         </Row>
         {
-          (holderState.length > 0) && (
+          (holdersState.length > 0) && (
             <div>
               <Row>
                 <Col className="d-flex justify-content-between mb-2 px-5">
