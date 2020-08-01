@@ -5,7 +5,7 @@ export const PICKUP_SECOND_CARD = "PICKUP_SECOND_CARD"
 export const REMOVE_FIRST_CARD = "REMOVE_FIRST_CARD"
 export const REMOVE_SECOND_CARD = "REMOVE_SECOND_CARD"
 export const OPEN_CENTER_CARD = "OPEN_CENTER_CARD"
-export const UPDATE_SCORE = "UPDATE_SCORE"
+export const CHECK_GAME_OVER = "CHECK_GAME_OVER"
 
 export const resetCardsStatus = (cardArrayData) => ({
   type: RESET_CARDS_STATUS,
@@ -33,6 +33,6 @@ export const removeSecondCard = (id) => ({
 export const openCenterCard = () => ({
   type: OPEN_CENTER_CARD
 })
-export const updateScore = () => ({
-  type: UPDATE_SCORE,
+export const checkGameOver = () => ({
+  type: CHECK_GAME_OVER,
 })

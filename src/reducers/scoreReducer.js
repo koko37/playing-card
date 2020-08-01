@@ -1,4 +1,5 @@
 import * as actions from "../actions/scoreActions"
+import { isGameOver } from "../utils/card"
 
 const defaultHolderState = {
   enable: false,
@@ -19,33 +20,6 @@ export default function scoreReducer(state = initialState, action) {
 
   switch(action.type) {
     /**
-     * update score
-     */
-    case actions.UPDATE_SCORE:
-      return state;
-
-    /**
-     * update center card enable state
-     */
-    case actions.OPEN_CENTER_CARD:
-      for(let i=0; i<5; i++) {
-        if((state.holdersState[i].cardsData.length === 0) && 
-        (state.holdersState[i+5].cardsData.length === 0)) {
-          if(state.holdersState[i+10].enable === false) {
-            console.log("[Action] open center card.", 
-              state.holdersState[i+10].cardsData[state.holdersState[i+10].cardsData.length-1]);
-            return {
-              ...state,
-              holdersState: [...state.holdersState.slice(0, i+10),
-                {...state.holdersState[i+10], enable: true},
-              ...state.holdersState.slice(i+11,state.holdersState.length)]
-            }
-          }
-        }
-      }
-      return state;
-
-      /**
        *  reset all game status
        */
     case actions.RESET_CARDS_STATUS:
@@ -155,6 +129,40 @@ export default function scoreReducer(state = initialState, action) {
         {...state.holdersState[action.payload], cardsData: cardsDataTemp},
       ...state.holdersState.slice(action.payload+1,state.holdersState.length)]
       }
+    
+    /**
+     * update center card enable state
+     */
+    case actions.OPEN_CENTER_CARD:
+      for(let i=0; i<5; i++) {
+        if((state.holdersState[i].cardsData.length === 0) && 
+        (state.holdersState[i+5].cardsData.length === 0)) {
+          if(state.holdersState[i+10].enable === false) {
+            console.log("[Action] open center card.", 
+              state.holdersState[i+10].cardsData[state.holdersState[i+10].cardsData.length-1]);
+            return {
+              ...state,
+              holdersState: [...state.holdersState.slice(0, i+10),
+                {...state.holdersState[i+10], enable: true},
+              ...state.holdersState.slice(i+11,state.holdersState.length)]
+            }
+          }
+        }
+      }
+      return state;
+    
+    /**
+     * check game over
+     */
+    case actions.CHECK_GAME_OVER:
+      if(isGameOver(state.holdersState)) {
+        console.log("[Action] game over!");
+        return {
+          ...state,
+          gameOver: true
+        }
+      }
+      return state;
 
     default:
       return state;

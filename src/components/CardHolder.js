@@ -10,8 +10,8 @@ import { resetPickupCard,
   pickupSecondCard, 
   removeFirstCard, 
   removeSecondCard,
-  updateScore,
-  openCenterCard
+  openCenterCard,
+  checkGameOver,
 } from "../actions/scoreActions"
 
 const mapStateToProps = (state) => ({
@@ -27,11 +27,11 @@ const mapDispatchToProps = (dispatch) => ({
   removeFirst: (id) => dispatch(removeFirstCard(id)),
   removeSecond: (id) => dispatch(removeSecondCard(id)),
   changeCenterState: () => dispatch(openCenterCard()),
-  upScore: () => dispatch(updateScore()),
+  checkOver: () => dispatch(checkGameOver()),
 })
 
 const CardHolder = ({id, card_size, holdersState, firstId, secondId, 
-  resetPickup, pickupFirst, pickupSecond, removeFirst, removeSecond, changeCenterState, upScore}) => {
+  resetPickup, pickupFirst, pickupSecond, removeFirst, removeSecond, changeCenterState, checkOver}) => {
   const cardsCount = holdersState[id].cardsData.length;
   const topCard = cardsCount > 0 ? holdersState[id].cardsData[cardsCount-1] : null;
   const active = ((id === firstId) || (id === secondId));
@@ -48,8 +48,8 @@ const CardHolder = ({id, card_size, holdersState, firstId, secondId,
         removeFirst(firstId);
         removeSecond(secondId);
         changeCenterState();
-        
-        upScore();
+
+        checkOver();
       }, 500);
     }
   }, [firstId, secondId]);
