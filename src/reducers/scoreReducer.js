@@ -15,6 +15,7 @@ export const initialState = {
 export default function scoreReducer(state = initialState, action) {
   var cardsDataTemp = [];
   var removedCard;
+  var scoreTemp;
 
   switch(action.type) {
     /**
@@ -31,7 +32,7 @@ export default function scoreReducer(state = initialState, action) {
         if((state.holdersState[i].cardsData.length === 0) && 
         (state.holdersState[i+5].cardsData.length === 0)) {
           if(state.holdersState[i+10].enable === false) {
-            console.log("[scoreReducer] open center card.", 
+            console.log("[Action] open center card.", 
               state.holdersState[i+10].cardsData[state.holdersState[i+10].cardsData.length-1]);
             return {
               ...state,
@@ -48,7 +49,7 @@ export default function scoreReducer(state = initialState, action) {
        *  reset all game status
        */
     case actions.RESET_CARDS_STATUS:
-      console.log("[scoreReducer] Reset game status.");
+      console.log("[Action] Reset game status.");
       var holderStatesTemp = [];
       var holderStateTemp;
       let i;
@@ -76,7 +77,7 @@ export default function scoreReducer(state = initialState, action) {
      * reset card pickup status
      */
     case actions.RESET_PICKUP_CARD:
-      console.log("[scoreReducer] reset pickup state.");
+      console.log("[Action] reset pickup state.");
       return {
         ...state,
         firstSelectedId: -1,
@@ -87,7 +88,7 @@ export default function scoreReducer(state = initialState, action) {
      * pickup first card
      */
     case actions.PICKUP_FIRST_CARD:
-      console.log("[scoreReducer] pickup first.");
+      console.log("[Action] pickup first.");
       return {
         ...state,
         firstSelectedId: action.payload
@@ -97,7 +98,7 @@ export default function scoreReducer(state = initialState, action) {
      * pickup second card
      */
     case actions.PICKUP_SECOND_CARD:
-      console.log("[scoreReducer] pickup second.");
+      console.log("[Action] pickup second.");
       return {
         ...state,
         secondSelectedId: action.payload
@@ -110,10 +111,19 @@ export default function scoreReducer(state = initialState, action) {
       cardsDataTemp = []
       Object.assign(cardsDataTemp, state.holdersState[action.payload].cardsData);
       removedCard = cardsDataTemp.pop();
-      console.log("[scoreReducer] removed first.", removedCard);
-
+      console.log("[Action] removed first.", removedCard);
+      scoreTemp = state.score;
+      // update score
+      if(cardsDataTemp.length === 0) {
+        if((action.payload > 9) & (action.payload < 15)) {
+          scoreTemp += 10000;
+        } else if(action.payload !== 15) {
+          scoreTemp += 1000;
+        }
+      }
       return {
         ...state,
+        score: scoreTemp,
         firstSelectedId: -1,
         holdersState: [...state.holdersState.slice(0, action.payload),
         {...state.holdersState[action.payload], cardsData: cardsDataTemp},
@@ -127,10 +137,19 @@ export default function scoreReducer(state = initialState, action) {
       cardsDataTemp = [];
       Object.assign(cardsDataTemp, state.holdersState[action.payload].cardsData);
       removedCard = cardsDataTemp.pop();
-      console.log("[scoreReducer] removed second.", removedCard);
-
+      console.log("[Action] removed second.", removedCard);
+      scoreTemp = state.score;
+      // update score
+      if(cardsDataTemp.length === 0) {
+        if((action.payload > 9) & (action.payload < 15)) {
+          scoreTemp += 10000;
+        } else if(action.payload !== 15) {
+          scoreTemp += 1000;
+        }
+      }
       return {
         ...state,
+        score: scoreTemp,
         secondSelectedId: -1,
         holdersState: [...state.holdersState.slice(0, action.payload),
         {...state.holdersState[action.payload], cardsData: cardsDataTemp},
