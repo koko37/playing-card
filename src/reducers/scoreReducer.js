@@ -72,6 +72,9 @@ export default function scoreReducer(state = initialState, action) {
      * pickup second card
      */
     case actions.PICKUP_SECOND_CARD:
+      if(state.firstSelectedId === action.payload) {
+        return state;
+      }
       console.log("[Action] pickup second.");
       return {
         ...state,
