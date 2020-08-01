@@ -1,11 +1,12 @@
 import React from 'react'
 import styles from "../styles/card.module.css"
+
 import club from "../imgs/c.png"
 import diamond from "../imgs/d.png"
 import heart from "../imgs/h.png"
 import spade from "../imgs/s.png"
 
-export default ({card, size, active, pickup}) => {
+export default ({id, card, size, active, pickup}) => {
     const width = size != null ? size.width : "120px"
     const height = size != null ? size.height : "150px"
 
@@ -37,7 +38,7 @@ export default ({card, size, active, pickup}) => {
     }
 
     return (
-        <div className={styles.card + " d-flex align-items-center justify-content-center"} style={card_style} onClick={() => pickup(card)}>
+        <div className={styles.card + " d-flex align-items-center justify-content-center"} style={card_style} onClick={() => pickup(id)}>
             <span className={styles.number}>{card.number.toString().toUpperCase()}</span>
         </div>
     )
