@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import styles from "../styles/card-holder.module.css"
 import Card from "./Card"
 import BlankCard from "./BlankCard"
 import BackCard from "./BackCard"
+import { Fade } from "react-bootstrap"
 
 import { resetPickupCard, 
   pickupFirstCard, 
@@ -35,6 +36,7 @@ const CardHolder = ({id, card_size, holdersState, firstId, secondId,
   const cardsCount = holdersState[id].cardsData.length;
   const topCard = cardsCount > 0 ? holdersState[id].cardsData[cardsCount-1] : null;
   const active = ((id === firstId) || (id === secondId));
+  const [fadeCardIn, setFadeCardIn] = useState(true);
 
   useEffect(() => {
     if((firstId !== -1) && (secondId !== -1) && (secondId === id)) {
@@ -44,15 +46,20 @@ const CardHolder = ({id, card_size, holdersState, firstId, secondId,
         resetPickup();
         return;
       }
-      setTimeout(() => {
-        removeFirst(firstId);
-        removeSecond(secondId);
-        changeCenterState();
+      // setTimeout(() => {
+      removeFirst(firstId);
+      removeSecond(secondId);
+      changeCenterState();
 
-        checkOver();
-      }, 500);
+      checkOver();
+      // }, 500);
     }
   }, [firstId, secondId]);
+
+  useEffect(() => {
+    // start fade-out, to update card
+    setFadeCardIn(false);
+  }, [topCard]);
 
   const compareCards = (lastSelectedId) => {
       if(firstId === -1) {
@@ -63,17 +70,19 @@ const CardHolder = ({id, card_size, holdersState, firstId, secondId,
   }
   
   return(
-    <div className={styles.cardHolder}>
-      {((holdersState[id].enable === true) && (cardsCount > 0)) && (
-        <Card card={topCard} size={card_size} active={active} id={id} pickup={compareCards}/>
-      )}
-      {(holdersState[id].enable === false) && (cardsCount > 0) && (
-        <BackCard size={card_size} />
-      )}
-      {(cardsCount === 0) && (
-        <BlankCard size={card_size} />
-      )}
-    </div>
+    <Fade in={fadeCardIn} timeout={3000} onExited={() => setFadeCardIn(true)}>
+      <div className={styles.cardHolder}>
+        {((holdersState[id].enable === true) && (cardsCount > 0)) && (
+          <Card card={topCard} size={card_size} active={active} id={id} pickup={compareCards}/>
+        )}
+        {(holdersState[id].enable === false) && (cardsCount > 0) && (
+          <BackCard size={card_size} />
+        )}
+        {(cardsCount === 0) && (
+          <BlankCard size={card_size} />
+        )}
+      </div>
+    </Fade>
   )
 }
 
