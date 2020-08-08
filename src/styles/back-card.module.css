@@ -1,10 +1,7 @@
 .backCard{
-  border-style: solid;
-  border-width: 1px;
-  border-color: teal;
-  display: block;
-  margin: 0;
-  padding: 0;
   border-radius: 3%;
-  background-color: teal;
+}
+
+.cardImage {
+  width: 100%;
 }

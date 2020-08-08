@@ -46,13 +46,12 @@ const CardHolder = ({id, card_size, holdersState, firstId, secondId,
         resetPickup();
         return;
       }
-      // setTimeout(() => {
-      removeFirst(firstId);
-      removeSecond(secondId);
-      changeCenterState();
-
-      checkOver();
-      // }, 500);
+      setTimeout(() => {
+        removeFirst(firstId);
+        removeSecond(secondId);
+        changeCenterState();
+        checkOver();
+     }, 300);
     }
   }, [firstId, secondId]);
 
@@ -71,9 +70,9 @@ const CardHolder = ({id, card_size, holdersState, firstId, secondId,
   
   return(
     <Fade in={fadeCardIn} timeout={3000} onExited={() => setFadeCardIn(true)}>
-      <div className={styles.cardHolder}>
+      <div className={styles.cardHolder + " mx-lg-4 mx-md-2 mx-1 flex-grow-1 flex-shrink-1 d-flex"}>
         {((holdersState[id].enable === true) && (cardsCount > 0)) && (
-          <Card card={topCard} size={card_size} active={active} id={id} pickup={compareCards}/>
+          <Card card={topCard} active={active} id={id} pickup={compareCards}/>
         )}
         {(holdersState[id].enable === false) && (cardsCount > 0) && (
           <BackCard size={card_size} />

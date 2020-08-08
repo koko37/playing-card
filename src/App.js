@@ -98,7 +98,7 @@ const App = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStatus, 
               (holdersState.length > 0) && (
                 <div>
                   <Row>
-                    <Col className="d-flex justify-content-between mb-2">
+                    <Col className="d-flex mb-2">
                       <CardHolder card_size={card_size} id={0} key={0}/>
                       <CardHolder card_size={card_size} id={1} key={1}/>
                       <CardHolder card_size={card_size} id={2} key={2}/>
@@ -107,7 +107,7 @@ const App = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStatus, 
                     </Col>
                   </Row>
                   <Row>
-                    <Col className="d-flex justify-content-between mb-2">
+                    <Col className="d-flex mb-2">
                       <CardHolder card_size={card_size} id={10} key={10}/>
                       <CardHolder card_size={card_size} id={11} key={11}/>
                       <CardHolder card_size={card_size} id={12} key={12}/>
@@ -116,7 +116,7 @@ const App = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStatus, 
                     </Col>
                   </Row>
                   <Row>
-                    <Col className="d-flex justify-content-between mb-2">
+                    <Col className="d-flex mb-2">
                       <CardHolder card_size={card_size} id={5} key={5}/>
                       <CardHolder card_size={card_size} id={6} key={6}/>
                       <CardHolder card_size={card_size} id={7} key={7}/>
@@ -124,7 +124,7 @@ const App = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStatus, 
                       <CardHolder card_size={card_size} id={9} key={9}/>
                     </Col>
                   </Row>
-                  <Row className="d-flex justify-content-center">
+                  <Row className="d-flex mx-auto">
                     <CardHolder card_size={card_size} id={15} key={15} />
                   </Row>
                 </div>

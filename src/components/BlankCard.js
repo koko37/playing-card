@@ -1,18 +1,15 @@
 import React from 'react'
 import styles from "../styles/blank-card.module.css"
+const cardImages = require.context('../imgs/cards')
 
-export default ({size}) => {
-    const width = size != null ? size.width : "120px"
-    const height = size != null ? size.height : "150px"
+export default () => {
+  const imageFileName = () => {
+    return "BLANK.png"
+  }
 
-    const card_style = {
-        width: width,
-        height: height,
-    }
-
-    return (
-        <div className={styles.blankCard} style={card_style}>
-            
-        </div>
-    )
+  return (
+    <div className={styles.blankCard + " flex-grow-1"}>
+      <img className={styles.cardImage} src={cardImages(`./${imageFileName()}`)} alt={imageFileName()} />
+    </div>
+  )
 }
