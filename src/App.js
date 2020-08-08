@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { Container, Jumbotron, Row, Col, Button, Alert  } from 'react-bootstrap';
+import { Container, Jumbotron, Row, Col, Button, Alert, Modal  } from 'react-bootstrap';
 import CardHolder from "./components/CardHolder"
 
 import { resetCardsStatus, appendScoreHistory, clearScoreHistory } from "./actions/scoreActions"
@@ -46,6 +46,8 @@ const App = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStatus, 
       };
       appendScore(scoreNewItem);
       window.localStorage.setItem(storageKey, JSON.stringify([...scoreHistory, scoreNewItem]));
+
+      setShowGameOverModal(true)
     }
   }, [gameOver])
 
@@ -63,9 +65,21 @@ const App = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStatus, 
     }
   }
 
+  const [showGameOverModal, setShowGameOverModal] = useState(false)
+  const onCloseModal = () => setShowGameOverModal(false)
+
   return (
     <Container>
-      { gameOver && (<Alert variant="danger" className="mt-2">Game over!</Alert>) }
+      <Modal show={showGameOverModal} onHide={onCloseModal}>
+        <Modal.Header closeButton><Modal.Title>60K Points</Modal.Title></Modal.Header>
+        <Modal.Body>
+            <h4 className="text-center">Game Over!</h4>
+            <h2 className="text-center text-danger">{score}</h2>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={onCloseModal}>Close</Button>
+        </Modal.Footer>
+      </Modal>
 
       <Row>
         <Col sm="12" md="10" lg="10">
