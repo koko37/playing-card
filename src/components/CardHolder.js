@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import styles from "../styles/card-holder.module.css"
+import { Fade, Col } from "react-bootstrap"
+
 import Card from "./Card"
 import BlankCard from "./BlankCard"
 import BackCard from "./BackCard"
-import { Fade } from "react-bootstrap"
+
+import styles from "../styles/card-holder.module.css"
 
 import { resetPickupCard, 
   pickupFirstCard, 
@@ -31,7 +33,7 @@ const mapDispatchToProps = (dispatch) => ({
   checkOver: () => dispatch(checkGameOver()),
 })
 
-const CardHolder = ({id, card_size, holdersState, firstId, secondId, 
+const CardHolder = ({id, holdersState, firstId, secondId, 
   resetPickup, pickupFirst, pickupSecond, removeFirst, removeSecond, changeCenterState, checkOver}) => {
   const cardsCount = holdersState[id].cardsData.length;
   const topCard = cardsCount > 0 ? holdersState[id].cardsData[cardsCount-1] : null;
@@ -70,17 +72,19 @@ const CardHolder = ({id, card_size, holdersState, firstId, secondId,
   
   return(
     <Fade in={fadeCardIn} timeout={3000} onExited={() => setFadeCardIn(true)}>
-      <div className={styles.cardHolder + " mx-lg-4 mx-md-2 mx-1 flex-grow-1 flex-shrink-1 d-flex"}>
+      <Col className={styles.cardHolder + "d-flex px-md-3 px-2 mb-1"}>
+
         {((holdersState[id].enable === true) && (cardsCount > 0)) && (
           <Card card={topCard} active={active} id={id} pickup={compareCards}/>
         )}
         {(holdersState[id].enable === false) && (cardsCount > 0) && (
-          <BackCard size={card_size} />
+          <BackCard />
         )}
         {(cardsCount === 0) && (
-          <BlankCard size={card_size} />
+          <BlankCard />
         )}
-      </div>
+
+      </Col>
     </Fade>
   )
 }

@@ -22,12 +22,6 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const App = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStatus, appendScore, clearScore}) => {
-
-  const card_size = {
-      width: "100px", 
-      height: "120px"
-  }
-
   const storageKey = "60kSCOREchReactv1";
 
   useEffect(() => {
@@ -84,13 +78,13 @@ const App = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStatus, 
               </div>
             </div>
             <Row>
-              <Col md="10" sm="10" lg="10" className="mb-3">
+              <Col xs="10">
                 <p className="lead my-0 text-muted">This is a card game by React</p>
                 <p className="lead my-0 text-muted">Please select a pair of cards with same number. Then it will disappear.</p>
                 <p className="lead my-0 text-muted">It will be over if you can not find a pair of cards any more.</p>
               </Col>
 
-              <Col md="2" sm="2" lg="2">
+              <Col xs="2">
                 <h1 className="text-danger">{score}</h1>
               </Col>
             </Row>
@@ -98,34 +92,32 @@ const App = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStatus, 
               (holdersState.length > 0) && (
                 <div>
                   <Row>
-                    <Col className="d-flex mb-2">
-                      <CardHolder card_size={card_size} id={0} key={0}/>
-                      <CardHolder card_size={card_size} id={1} key={1}/>
-                      <CardHolder card_size={card_size} id={2} key={2}/>
-                      <CardHolder card_size={card_size} id={3} key={3}/>
-                      <CardHolder card_size={card_size} id={4} key={4}/>
-                    </Col>
+                    <CardHolder id={0} key={0}/>
+                    <CardHolder id={1} key={1}/>
+                    <CardHolder id={2} key={2}/>
+                    <CardHolder id={3} key={3}/>
+                    <CardHolder id={4} key={4}/>
                   </Row>
                   <Row>
-                    <Col className="d-flex mb-2">
-                      <CardHolder card_size={card_size} id={10} key={10}/>
-                      <CardHolder card_size={card_size} id={11} key={11}/>
-                      <CardHolder card_size={card_size} id={12} key={12}/>
-                      <CardHolder card_size={card_size} id={13} key={13}/>
-                      <CardHolder card_size={card_size} id={14} key={14}/>
-                    </Col>
+                    <CardHolder id={10} key={10}/>
+                    <CardHolder id={11} key={11}/>
+                    <CardHolder id={12} key={12}/>
+                    <CardHolder id={13} key={13}/>
+                    <CardHolder id={14} key={14}/>
                   </Row>
                   <Row>
-                    <Col className="d-flex mb-2">
-                      <CardHolder card_size={card_size} id={5} key={5}/>
-                      <CardHolder card_size={card_size} id={6} key={6}/>
-                      <CardHolder card_size={card_size} id={7} key={7}/>
-                      <CardHolder card_size={card_size} id={8} key={8}/>
-                      <CardHolder card_size={card_size} id={9} key={9}/>
-                    </Col>
+                    <CardHolder id={5} key={5}/>
+                    <CardHolder id={6} key={6}/>
+                    <CardHolder id={7} key={7}/>
+                    <CardHolder id={8} key={8}/>
+                    <CardHolder id={9} key={9}/>
                   </Row>
-                  <Row className="d-flex mx-auto">
-                    <CardHolder card_size={card_size} id={15} key={15} />
+                  <Row>
+                    <Col></Col>
+                    <Col></Col>
+                    <CardHolder id={15} key={15} />
+                    <Col></Col>
+                    <Col></Col>
                   </Row>
                 </div>
               )
