@@ -5,6 +5,7 @@ import CardHolder from "./components/CardHolder"
 
 import { resetCardsStatus, appendScoreHistory, clearScoreHistory } from "./actions/scoreActions"
 import initCardArray from "./utils/card"
+import githubIcon from "./imgs/github.png"
 
 import "./styles/app.css"
 
@@ -85,7 +86,11 @@ const App = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStatus, 
         <Col sm="12" md="10" lg="10">
           <Jumbotron className="mt-3">
             <div className="d-flex justify-content-between align-items-center border-bottom border-primary mb-2">
-              <h1 className="text-primary">60K Points</h1>
+              <div className="d-flex align-items-center">
+                <a href="https://github.com/yeahCH/playing-card"><img src={githubIcon} alt="github.com/yeahch/playing-card" style={{width: '36px', marginRight: '10px'}}/></a>
+                <h1 className="text-primary">60K Points</h1>
+              </div>
+
               <div>
                 <Button variant="warning" className="mr-2" onClick={() => onClickResetHistory()}>Reset score</Button>
                 <Button variant="danger" onClick={() => onClickRestart()}>New game</Button>
