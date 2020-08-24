@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { Container, Row, Col, Button, Modal, Footer  } from 'react-bootstrap';
+import { Container, Row, Col, Button, Modal  } from 'react-bootstrap';
 import CardHolder from "./components/CardHolder"
 
 import { resetCardsStatus, appendScoreHistory, clearScoreHistory } from "./actions/scoreActions"
