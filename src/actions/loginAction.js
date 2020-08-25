@@ -43,3 +43,31 @@ export function performLogin(email, password) {
     }
   }
 }
+
+export function performSignup(username, email, password) {
+  return async dispatch => {
+    dispatch(startLogin())
+
+    try {
+      const params = {
+        username: username,
+        email: email,
+        password: password
+      }
+      const resp = await axios.post('https://api60k.herokuapp.com/auth', params)
+      const tokens = {
+        'access-token': resp.headers['access-token'],
+        'token-type': resp.headers['token-type'],
+        'client': resp.headers['client'],
+        'uid': resp.headers['uid'],
+        'expiry': resp.headers['expiry'],
+      }
+
+      console.log("token: ", tokens)
+      window.localStorage.setItem(sessionStorageKey, JSON.stringify(tokens));
+      dispatch(completeLogin())     
+    } catch(err) {
+      dispatch(failedLogin())
+    }
+  }
+}
