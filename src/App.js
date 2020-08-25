@@ -85,12 +85,15 @@ const App = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStatus, 
         </Modal.Footer>
       </Modal>
 
-      <Modal show={showHelpModal} onHide={onCloseHelpModal}>
+      <Modal show={showHelpModal} onHide={onCloseHelpModal} size="lg">
         <Modal.Header closeButton><Modal.Title>How to play?</Modal.Title></Modal.Header>
         <Modal.Body>
-          <p className="lead my-0 text-muted">This is a card game by React</p>
-          <p className="lead my-0 text-muted">Please select a pair of cards with same number. Then it will disappear.</p>
-          <p className="lead my-0 text-muted">It will be over if you can not find a pair of cards any more.</p>
+          <p className="lead text-muted">
+            This is a card game by React.<br/>
+            Please select a pair of cards with same number. Then it will disappear.<br/>
+            It will be over if you can not find a pair of cards any more.<br/>
+            <strong className="text-info">Please login to share your scores with community!</strong>
+          </p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={onCloseHelpModal}>Close</Button>
@@ -98,16 +101,16 @@ const App = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStatus, 
       </Modal>
 
       <Row>
-        <Col sm="12" md="10" lg="10" className="bg-light mt-2">
+        <Col sm="12" md="10" lg="10" className="bg-info mt-2 rounded">
           <div className="d-flex justify-content-between align-items-center border-bottom border-primary mb-2">
             <div className="d-flex align-items-center">
               <h1 className="text-primary">60K Points</h1>
             </div>
 
             <div className="d-flex">
-              <Button variant="info" className="mr-1" onClick={() => setShowHelpModal(true)}>Help</Button>
+              <Button variant="info" className="mr-1" onClick={() => setShowHelpModal(true)}>?</Button>
               <Button variant="warning" className="mr-1" onClick={() => onClickResetHistory()}>Reset score</Button>
-              <Button variant="danger" onClick={() => onClickRestart()}>New game</Button>
+              <Button variant="danger" onClick={() => onClickRestart()}>New</Button>
             </div>
           </div>
           
@@ -165,13 +168,23 @@ const App = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStatus, 
         </Col>
       </Row>
 
-      <footer className="border-top pt-3 my-md-5">
+      <footer className="border-top border-info pt-3 my-md-5">
         <Row>
           <Col className="text-center">
             <h5>
               <a href="https://github.com/yeahCH/playing-card"><img src={githubIcon} alt="github.com/yeahch/playing-card" style={{width: '36px', marginRight: '10px'}}/></a>
-              @yeahch : 2020 by React.JS
+              @yeahch : 2020
             </h5>
+          </Col>
+
+          <Col className="text-left">
+            <h5>Features</h5>
+            <ul className="list-unstyled">
+              <li>ReactJS</li>
+              <li>Redux</li>
+              <li>PWA</li>
+              <li>RestAPI</li>
+            </ul>
           </Col>
         </Row>
       </footer>
