@@ -107,9 +107,9 @@ const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStat
 
       <Row>
         <Col sm="12" md="10" lg="10" className="bg-info mt-2 rounded">
-          <div className="d-flex justify-content-between align-items-center border-bottom border-primary mb-2">
+          <div className="d-flex justify-content-between align-items-center border-bottom border-primary mb-2 pt-2">
             <div className="d-flex align-items-center">
-              <h1 className="text-primary">60K</h1>
+              <h1 className="text-warning">60K</h1>
             </div>
 
             <div className="d-flex">
