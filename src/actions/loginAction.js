@@ -4,6 +4,8 @@ export const LOGIN_PENDING = "LOGIN_PENDING"
 export const LOGIN_COMPLETE = "LOGIN_COMPLETE"
 export const LOGIN_FAILED = "LOGIN_FAILED"
 
+export const sessionStorageKey = "60kSESSIONstoreV1";
+
 export const startLogin = () => ({
   type: LOGIN_PENDING
 })
@@ -26,8 +28,15 @@ export function performLogin(email, password) {
         password: password
       }
       const resp = await axios.post('https://api60k.herokuapp.com/auth/sign_in', params)
-      console.log("data:", resp.data)
-      console.log("header:", resp.headers)
+      const tokens = {
+        'access-token': resp.headers['access-token'],
+        'token-type': resp.headers['token-type'],
+        'client': resp.headers['client'],
+        'uid': resp.headers['uid'],
+        'expiry': resp.headers['expiry'],
+      }
+
+      window.localStorage.setItem(sessionStorageKey, JSON.stringify(tokens));
       dispatch(completeLogin())     
     } catch(err) {
       dispatch(failedLogin())

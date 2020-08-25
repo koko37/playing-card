@@ -3,24 +3,28 @@ import { connect } from 'react-redux'
 import { Row, Col, Button, Modal  } from 'react-bootstrap'
 import CardHolder from "../components/CardHolder"
 
-import { resetCardsStatus, appendScoreHistory, clearScoreHistory } from "../actions/scoreActions"
+import { resetCardsStatus, appendScoreHistory, clearScoreHistory } from "../actions/logicActions"
+import { uploadScore } from '../actions/scoreAction'
+import { sessionStorageKey } from '../actions/loginAction'
+
 import initCardArray from "../utils/card"
 import "../styles/app.css"
 
 const mapStateToProps = (state) => ({
-  score: state.score.score,
-  holdersState: state.score.holdersState,
-  gameOver: state.score.gameOver,
-  scoreHistory: state.score.scoreHistory
+  score: state.logic.score,
+  holdersState: state.logic.holdersState,
+  gameOver: state.logic.gameOver,
+  scoreHistory: state.logic.scoreHistory
 })
 
 const mapDispatchToProps = (dispatch) => ({
   resetAllCardsStatus: (cardArray) => dispatch(resetCardsStatus(cardArray)),
   appendScore: (item) => dispatch(appendScoreHistory(item)),
-  clearScore: () => dispatch(clearScoreHistory())
+  clearScore: () => dispatch(clearScoreHistory()),
+  shareScore: (p, t) => dispatch(uploadScore(p, t))
 })
 
-const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStatus, appendScore, clearScore}) => {
+const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStatus, appendScore, clearScore, shareScore}) => {
   const storageKey = "60kSCOREchReactv1";
 
   useEffect(() => {
@@ -45,7 +49,11 @@ const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStat
       appendScore(scoreNewItem);
       window.localStorage.setItem(storageKey, JSON.stringify([...scoreHistory, scoreNewItem]));
 
-      setShowGameOverModal(true)
+      // upload score into backend
+      var tokensData = JSON.parse(window.localStorage.getItem(sessionStorageKey))
+      shareScore(score, tokensData);
+
+      setShowGameOverModal(true);
     }
   }, [gameOver])
 

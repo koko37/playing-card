@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux'
-import scoreReducer from './scoreReducer'
+import logicReducer from './logicReducer'
 import loginReducer from './loginReducer'
+import scoreReducer from './scoreReducer'
 
 const rootReducer = combineReducers({
-  score: scoreReducer,
-  login: loginReducer
+  logic: logicReducer,
+  login: loginReducer,
+  score: scoreReducer
 })
 
 export default rootReducer

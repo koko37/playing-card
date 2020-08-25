@@ -15,12 +15,12 @@ import { resetPickupCard,
   removeSecondCard,
   openCenterCard,
   checkGameOver,
-} from "../actions/scoreActions"
+} from "../actions/logicActions"
 
 const mapStateToProps = (state) => ({
-  holdersState: state.score.holdersState,
-  firstId: state.score.firstSelectedId,
-  secondId: state.score.secondSelectedId
+  holdersState: state.logic.holdersState,
+  firstId: state.logic.firstSelectedId,
+  secondId: state.logic.secondSelectedId
 })
 
 const mapDispatchToProps = (dispatch) => ({
