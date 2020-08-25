@@ -29,7 +29,6 @@ const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStat
     var scoresOldHistory = JSON.parse(window.localStorage.getItem(storageKey));
     if(scoresOldHistory !== null) {
       for(let item of scoresOldHistory) {
-        console.log("[App] loading score.", item);
         appendScore(item);
       }
     }
