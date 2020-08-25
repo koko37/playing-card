@@ -102,11 +102,11 @@ const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStat
         <Col sm="12" md="10" lg="10" className="bg-info mt-2 rounded">
           <div className="d-flex justify-content-between align-items-center border-bottom border-primary mb-2">
             <div className="d-flex align-items-center">
-              <h1 className="text-primary">60K Points</h1>
+              <h1 className="text-primary">60K</h1>
             </div>
 
             <div className="d-flex">
-              <Button variant="info" className="mr-1" onClick={() => setShowHelpModal(true)}>?</Button>
+              <Button variant="info" className="mr-1" onClick={() => setShowHelpModal(true)}><strong>?</strong></Button>
               <Button variant="warning" className="mr-1" onClick={() => onClickResetHistory()}>Reset score</Button>
               <Button variant="danger" onClick={() => onClickRestart()}>New</Button>
             </div>
@@ -150,7 +150,7 @@ const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStat
         </Col>
         <Col sm="12" md="2" lg="2" className="mt-3">
           <h4 className="text-info">Score: </h4>
-          <h2 className="text-danger text-center">{score}</h2>
+          <h2 className="text-white text-center">{score}</h2>
           <hr/>
           <h4 className="text-info">High Scores</h4>
           {
