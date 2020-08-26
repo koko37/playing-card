@@ -7,14 +7,15 @@ import { validateEmail } from '../utils/auth'
 
 const mapStateToProps = (state) => ({
   pending: state.login.pending,
-  hasErrors: state.login.hasErrors
+  hasErrors: state.login.hasErrors,
+  errorMsgs: state.login.errors
 })
 
 const mapDispatchToProps = (dispatch) => ({
   signup: (u, e, p) => dispatch(performSignup(u, e, p))
 })
 
-const Signup = ({pending, hasErrors, signup}) => {
+const Signup = ({pending, hasErrors, errorMsgs, signup}) => {
   const style = {
     height: '70vh'
   }
@@ -77,12 +78,16 @@ const Signup = ({pending, hasErrors, signup}) => {
             </div>
             { 
               (inputErrors.length > 0) && (<Alert variant="danger">
-                <ul className="my-0">
+                <ul className="my-0 mx-0">
                   { inputErrors.map((e, id) => <li key={id}> {e} </li>) }
                 </ul>
               </Alert>)
             }
-            { hasErrors && (<Alert variant="danger">Signup failed!</Alert>) }
+            { hasErrors && (<Alert variant="danger">
+                <ul className="my-0 mx-0">
+                  { errorMsgs.map((e, id) => <li key={id}> {e} </li>) }
+                </ul>
+            </Alert>) }
             <Form.Control type="text" placeholder="Username *" name="username" className="mt-3" onChange={handleUsernameChange} value={username}/>
             <Form.Control type="email" placeholder="Email *" name="email" className="mt-3" onChange={handleEmailChange} value={email}/>
             <Form.Control type="password" placeholder="Password *" name="password"  className="mt-3" onChange={handlePasswordChange} value={password}/>

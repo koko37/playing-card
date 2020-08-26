@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Row, Col, Button, Modal, DropdownButton, Dropdown } from 'react-bootstrap'
+import { Row, Col, Button, Modal, DropdownButton, Dropdown, Spinner } from 'react-bootstrap'
 import CardHolder from "../components/CardHolder"
 
 import { signOut } from '../actions/loginAction'
@@ -18,7 +18,8 @@ const mapStateToProps = (state) => ({
   scoreHistory: state.logic.scoreHistory,
   isSignedIn: state.login.isAuthUser,
   authTokens: state.login.tokens,
-  remoteScores: state.score.scores
+  remoteScores: state.score.scores,
+  scoreLoading: state.score.uploading
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -32,7 +33,7 @@ const mapDispatchToProps = (dispatch) => ({
 const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStatus, 
   appendScore, clearLocalScores, uploadScoreToServer, 
   isSignedIn, authTokens, signout,
-  remoteScores}) => {
+  remoteScores, scoreLoading}) => {
 
   useEffect(() => {
     resetAllCardsStatus(initCardArray());
@@ -166,6 +167,10 @@ const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStat
           <h2 className="text-white text-center">{score}</h2>
           <hr/>
           <h5 className="text-info">Remote Scores</h5>
+          { scoreLoading && (
+            <Spinner animation="border" variant="warning" className="ml-3 mt-2 align-items-center" />
+          )
+          }
           {
             remoteScores.map( (item, id) => (
               <div key={id}>

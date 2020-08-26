@@ -6,14 +6,15 @@ import { performLogin } from '../actions/loginAction'
 
 const mapStateToProps = (state) => ({
   pending: state.login.pending,
-  hasErrors: state.login.hasErrors
+  hasErrors: state.login.hasErrors,
+  errorMsgs: state.login.errors
 })
 
 const mapDispatchToProps = (dispatch) => ({
   login: (email, password) => dispatch(performLogin(email, password))
 })
 
-const Signin = ({pending, hasErrors, login}) => {
+const Signin = ({pending, hasErrors, errorMsgs, login}) => {
   const style = {
     height: '70vh'
   }
@@ -50,11 +51,11 @@ const Signin = ({pending, hasErrors, login}) => {
               )
               }
             </div>
-            {
-              hasErrors && (
-              <Alert variant="danger">Incorrect email or password!</Alert>
-              )
-            }
+            { hasErrors && (<Alert variant="danger">
+                <ul className="my-0 mx-0">
+                  { errorMsgs.map((e, id) => <li key={id}> {e} </li>) }
+                </ul>
+            </Alert>) }
             <Form.Control type="email" placeholder="Enter email" name="email" className="mt-3" value={email} onChange={handleEmailChange}/>
             <Form.Control type="password" placeholder="Password" name="password"  className="mt-3" value={password} onChange={handlePasswordChange}/>
             <Button className="mt-3" variant="primary" block onClick={onSubmit}>Submit</Button>

@@ -5,7 +5,8 @@ const initialLoginState = {
   pending: false,
   hasErrors: false,
   isAuthUser: isAuthValid(),
-  tokens: getTokenFromLocal() || {}
+  tokens: getTokenFromLocal() || {},
+  errors: []
 }
 
 export default function loginReducer(state = initialLoginState, action) {
@@ -17,6 +18,7 @@ export default function loginReducer(state = initialLoginState, action) {
         pending: true,
         hasErrors: false,
         isAuthUser: false,
+        errors: []
       }
 
     case actions.LOGIN_COMPLETE:
@@ -34,7 +36,8 @@ export default function loginReducer(state = initialLoginState, action) {
         ...state,
         pending: false,
         hasErrors: true,
-        isAuthUser: false
+        isAuthUser: false,
+        errors: action.payload
       }
 
     case actions.LOGOUT:

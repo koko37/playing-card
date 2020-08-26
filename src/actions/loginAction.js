@@ -14,8 +14,9 @@ export const completeLogin = (t) => ({
   payload: t
 })
 
-export const failedLogin = () => ({
-  type: LOGIN_FAILED
+export const failedLogin = (errors) => ({
+  type: LOGIN_FAILED,
+  payload: errors
 })
 
 export const signOut = () => ({
@@ -42,7 +43,7 @@ export function performLogin(email, password) {
 
       dispatch(completeLogin(tokens))     
     } catch(err) {
-      dispatch(failedLogin())
+      dispatch(failedLogin(err.response.data.errors))
     }
   }
 }
@@ -68,7 +69,7 @@ export function performSignup(username, email, password) {
 
       dispatch(completeLogin(tokens))     
     } catch(err) {
-      dispatch(failedLogin())
+      dispatch(failedLogin(err.response.data.errors.full_messages))
     }
   }
 }
