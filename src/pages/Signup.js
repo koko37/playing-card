@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Row, Col, Form, Button, Alert, Spinner  } from 'react-bootstrap'
 import { performSignup } from '../actions/loginAction'
+import { validateEmail } from '../utils/validate'
 
 const mapStateToProps = (state) => ({
   pending: state.login.pending,
@@ -21,11 +22,15 @@ const Signup = ({pending, hasErrors, signup}) => {
     maxWidth: '330px'
   }
 
+  useEffect(() => {
+    setInputErrors([])
+  }, [])
+  
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
   const [username, setUsername] = useState('')
-  const [inputError, setInputError] = useState(false)
+  const [inputErrors, setInputErrors] = useState([])
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value)
@@ -47,13 +52,18 @@ const Signup = ({pending, hasErrors, signup}) => {
     console.log("[App] Trying to sign up...")
     e.preventDefault()
 
-    setInputError(false)
-    if((password.length < 8) || (password !== passwordConfirm) || (username.length < 5)) {
-      setInputError(true)
-      return
-    }
+    let errorsList = []
+    if(username.length < 3) errorsList = [...errorsList, "Username too short (<3)"]
+    if(!validateEmail(email)) errorsList = [...errorsList, "Invalid email address"]
+    if(password.length < 8) errorsList = [...errorsList, "Password should (<8)"]
+    if(password !== passwordConfirm) errorsList = [...errorsList, "Password incorrect"]
 
-    signup(username, email, password)
+    if(errorsList.length === 0) {
+      setInputErrors([])
+      signup(username, email, password)
+    } else {
+      setInputErrors(errorsList)
+    }
   }
 
   return (
@@ -63,22 +73,16 @@ const Signup = ({pending, hasErrors, signup}) => {
           <Form className="p-3 border border-info rounded bg-info">
             <div className="d-flex align-items-center justify-content-center">
               <h3 className="text-center mt-3">Sign up</h3>
-              { pending && (
-                <Spinner animation="border" size="sm" className="ml-3 mt-2 align-items-center" />
-              )
-              }
+              { pending && (<Spinner animation="border" size="sm" className="ml-3 mt-2 align-items-center" />) }
             </div>
-
-            {
-              inputError && (
-              <Alert variant="danger">Incorrect email or password!</Alert>
-              )
+            { 
+              (inputErrors.length > 0) && (<Alert variant="danger">
+                <ul className="my-0">
+                  { inputErrors.map((e, id) => <li key={id}> {e} </li>) }
+                </ul>
+              </Alert>)
             }
-            {
-              hasErrors && (
-              <Alert variant="danger">Signup failed!</Alert>
-              )
-            }
+            { hasErrors && (<Alert variant="danger">Signup failed!</Alert>) }
             <Form.Control type="text" placeholder="Username *" name="username" className="mt-3" onChange={handleUsernameChange} value={username}/>
             <Form.Control type="email" placeholder="Email *" name="email" className="mt-3" onChange={handleEmailChange} value={email}/>
             <Form.Control type="password" placeholder="Password *" name="password"  className="mt-3" onChange={handlePasswordChange} value={password}/>
