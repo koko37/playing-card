@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { BrowserRouter, Switch, Route, Link, Redirect } from 'react-router-dom'
 import { Container, Row, Col } from 'react-bootstrap'
+import { downloadHighscore } from './actions/scoreAction'
 
 import Game60K from './pages/Game'
 import Signin from './pages/Signin'
@@ -12,11 +13,20 @@ import "./styles/app.css"
 
 const mapStateToProps = (state) => ({
   isSignedIn: state.login.isAuthUser,
-  authTokens: state.login.tokens
 })
 
-const App = ({isSignedIn}) => {
+const mapDispatchToProps = (dispatch) => ({
+  downloadScores: () => dispatch(downloadHighscore()),
+})
+
+const App = ({isSignedIn, downloadScores}) => {
   
+  useEffect(() => {
+    // download history
+    console.log("[App] download scores ...")
+    downloadScores()
+  }, [downloadScores])
+
   return (
     <BrowserRouter>
       <Container>
@@ -70,4 +80,4 @@ const App = ({isSignedIn}) => {
   )
 }
 
-export default connect(mapStateToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)

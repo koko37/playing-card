@@ -38,3 +38,19 @@ export function uploadScore(point, tokens) {
     }
   }
 }
+
+export function downloadHighscore() {
+  return async dispatch => {
+    console.log("[App] downloading ...")
+    dispatch(uploadScoreStart())
+
+    try {
+      const resp = await axios.get('https://api60k.herokuapp.com/scores')
+
+      console.log("resp: ", resp.data)
+      dispatch(uploadScoreDone(resp.data.scores))
+    } catch(err) {
+      dispatch(uploadScoreFailed())
+    }
+  }
+}

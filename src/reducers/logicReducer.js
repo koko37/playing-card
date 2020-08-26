@@ -1,6 +1,6 @@
 import * as actions from "../actions/logicActions"
 import { isGameOver } from "../utils/card"
-import { readScoreFromLocal } from '../utils/auth'
+import { readScoreFromLocal, saveScoreToLocal } from '../utils/auth'
 
 const defaultHolderState = {
   enable: false,
@@ -174,6 +174,7 @@ export default function logicReducer(state = initialState, action) {
        * append game history
        */
     case actions.APPEND_SCORE_HISTORY:
+      saveScoreToLocal([...state.scoreHistory, action.payload])
       return {
         ...state,
         scoreHistory: [...state.scoreHistory, action.payload]
@@ -183,6 +184,7 @@ export default function logicReducer(state = initialState, action) {
        * clear game history
        */
     case actions.CLEAR_SCORE_HISTORY:
+      saveScoreToLocal([])
       return {
         ...state,
         scoreHistory: []

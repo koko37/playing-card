@@ -7,7 +7,6 @@ import CardHolder from "../components/CardHolder"
 import { signOut } from '../actions/loginAction'
 import { resetCardsStatus, appendScoreHistory, clearScoreHistory } from "../actions/logicActions"
 import { uploadScore } from '../actions/scoreAction'
-import { saveScoreToLocal } from '../utils/auth'
 
 import initCardArray from "../utils/card"
 import "../styles/app.css"
@@ -18,20 +17,22 @@ const mapStateToProps = (state) => ({
   gameOver: state.logic.gameOver,
   scoreHistory: state.logic.scoreHistory,
   isSignedIn: state.login.isAuthUser,
-  authTokens: state.login.tokens
+  authTokens: state.login.tokens,
+  remoteScores: state.score.scores
 })
 
 const mapDispatchToProps = (dispatch) => ({
   resetAllCardsStatus: (cardArray) => dispatch(resetCardsStatus(cardArray)),
   appendScore: (item) => dispatch(appendScoreHistory(item)),
-  clearScore: () => dispatch(clearScoreHistory()),
+  clearLocalScores: () => dispatch(clearScoreHistory()),
   uploadScoreToServer: (p, t) => dispatch(uploadScore(p, t)),
   signout: () => dispatch(signOut())
 })
 
 const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStatus, 
-  appendScore, clearScore, uploadScoreToServer, 
-  isSignedIn, authTokens, signout}) => {
+  appendScore, clearLocalScores, uploadScoreToServer, 
+  isSignedIn, authTokens, signout,
+  remoteScores}) => {
 
   useEffect(() => {
     resetAllCardsStatus(initCardArray());
@@ -47,8 +48,6 @@ const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStat
         score: score
       };
       appendScore(scoreNewItem);
-      saveScoreToLocal([...scoreHistory, scoreNewItem]);
-
       // upload score into backend
       uploadScoreToServer(score, authTokens);
 
@@ -59,8 +58,7 @@ const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStat
   const onClickResetHistory = () => {
     if(window.confirm("Are you sure to clear local history?") === true) {
       console.log("[App] clear history.");
-      saveScoreToLocal([])
-      clearScore();
+      clearLocalScores();
     }
   }
 
@@ -115,7 +113,7 @@ const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStat
           <div className="d-flex justify-content-between align-items-center border-bottom border-primary mb-2 pt-2">
             <h1 className="text-warning">60K</h1>
 
-            <div class="d-flex">
+            <div className="d-flex">
               { isSignedIn ?  <Button variant="warning" onClick={() => onClickLogout()}>Sign out</Button> : <Link to="/signin"><Button variant="warning">Sign-in</Button></Link> }
               
               <DropdownButton variant="primary" title="Game" className="px-2">
@@ -167,13 +165,25 @@ const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStat
           <h4 className="text-info">Score: </h4>
           <h2 className="text-white text-center">{score}</h2>
           <hr/>
-          <h4 className="text-info">High Scores</h4>
+          <h5 className="text-info">Remote Scores</h5>
+          {
+            remoteScores.map( (item, id) => (
+              <div key={id}>
+                <p>{item.username}</p>
+                <h3 className="text-center">{item.point}</h3>
+                <p>{new Date(item.at).toDateString()}</p>
+              </div>
+            ))
+          }
+
+          <hr/>
+          <h5 className="text-info">Local Scores</h5>
           {
             scoreHistory.sort((a, b) => {
               return b.score - a.score
             }).map( (item, id) => (
               <div key={id}>
-                <h3>{item.score}</h3>
+                <h3 className="text-center">{item.score}</h3>
                 <p>{new Date(item.date).toDateString()}</p>
               </div>
             ))
