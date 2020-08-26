@@ -3,19 +3,23 @@ import axios from 'axios'
 export const LOGIN_PENDING = "LOGIN_PENDING"
 export const LOGIN_COMPLETE = "LOGIN_COMPLETE"
 export const LOGIN_FAILED = "LOGIN_FAILED"
-
-export const sessionStorageKey = "60kSESSIONstoreV1";
+export const LOGOUT = "LOGOUT"
 
 export const startLogin = () => ({
   type: LOGIN_PENDING
 })
 
-export const completeLogin = () => ({
-  type: LOGIN_COMPLETE
+export const completeLogin = (t) => ({
+  type: LOGIN_COMPLETE,
+  payload: t
 })
 
 export const failedLogin = () => ({
   type: LOGIN_FAILED
+})
+
+export const signOut = () => ({
+  type: LOGOUT
 })
 
 export function performLogin(email, password) {
@@ -36,8 +40,7 @@ export function performLogin(email, password) {
         'expiry': resp.headers['expiry'],
       }
 
-      window.localStorage.setItem(sessionStorageKey, JSON.stringify(tokens));
-      dispatch(completeLogin())     
+      dispatch(completeLogin(tokens))     
     } catch(err) {
       dispatch(failedLogin())
     }
@@ -63,9 +66,7 @@ export function performSignup(username, email, password) {
         'expiry': resp.headers['expiry'],
       }
 
-      console.log("token: ", tokens)
-      window.localStorage.setItem(sessionStorageKey, JSON.stringify(tokens));
-      dispatch(completeLogin())     
+      dispatch(completeLogin(tokens))     
     } catch(err) {
       dispatch(failedLogin())
     }

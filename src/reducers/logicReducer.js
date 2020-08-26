@@ -1,5 +1,6 @@
 import * as actions from "../actions/logicActions"
 import { isGameOver } from "../utils/card"
+import { readScoreFromLocal } from '../utils/auth'
 
 const defaultHolderState = {
   enable: false,
@@ -11,7 +12,7 @@ export const initialState = {
   holdersState: [],
   firstSelectedId: -1,
   secondSelectedId: -1,
-  scoreHistory: []
+  scoreHistory: readScoreFromLocal() || []
 }
 
 export default function logicReducer(state = initialState, action) {

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Row, Col, Form, Button, Alert, Spinner  } from 'react-bootstrap'
 import { performSignup } from '../actions/loginAction'
-import { validateEmail } from '../utils/validate'
+import { validateEmail } from '../utils/auth'
 
 const mapStateToProps = (state) => ({
   pending: state.login.pending,

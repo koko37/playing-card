@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { Row, Col, Button, Modal  } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+import { Row, Col, Button, Modal, DropdownButton, Dropdown } from 'react-bootstrap'
 import CardHolder from "../components/CardHolder"
 
+import { signOut } from '../actions/loginAction'
 import { resetCardsStatus, appendScoreHistory, clearScoreHistory } from "../actions/logicActions"
 import { uploadScore } from '../actions/scoreAction'
-import { sessionStorageKey } from '../actions/loginAction'
+import { saveScoreToLocal } from '../utils/auth'
 
 import initCardArray from "../utils/card"
 import "../styles/app.css"
@@ -14,28 +16,26 @@ const mapStateToProps = (state) => ({
   score: state.logic.score,
   holdersState: state.logic.holdersState,
   gameOver: state.logic.gameOver,
-  scoreHistory: state.logic.scoreHistory
+  scoreHistory: state.logic.scoreHistory,
+  isSignedIn: state.login.isAuthUser,
+  authTokens: state.login.tokens
 })
 
 const mapDispatchToProps = (dispatch) => ({
   resetAllCardsStatus: (cardArray) => dispatch(resetCardsStatus(cardArray)),
   appendScore: (item) => dispatch(appendScoreHistory(item)),
   clearScore: () => dispatch(clearScoreHistory()),
-  shareScore: (p, t) => dispatch(uploadScore(p, t))
+  uploadScoreToServer: (p, t) => dispatch(uploadScore(p, t)),
+  signout: () => dispatch(signOut())
 })
 
-const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStatus, appendScore, clearScore, shareScore}) => {
-  const storageKey = "60kSCOREchReactv1";
+const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStatus, 
+  appendScore, clearScore, uploadScoreToServer, 
+  isSignedIn, authTokens, signout}) => {
 
   useEffect(() => {
     resetAllCardsStatus(initCardArray());
     console.log("[App] loading scores.");
-    var scoresOldHistory = JSON.parse(window.localStorage.getItem(storageKey));
-    if(scoresOldHistory !== null) {
-      for(let item of scoresOldHistory) {
-        appendScore(item);
-      }
-    }
   }, [])
 
   useEffect(() => {
@@ -47,20 +47,19 @@ const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStat
         score: score
       };
       appendScore(scoreNewItem);
-      window.localStorage.setItem(storageKey, JSON.stringify([...scoreHistory, scoreNewItem]));
+      saveScoreToLocal([...scoreHistory, scoreNewItem]);
 
       // upload score into backend
-      var tokensData = JSON.parse(window.localStorage.getItem(sessionStorageKey))
-      shareScore(score, tokensData);
+      uploadScoreToServer(score, authTokens);
 
       setShowGameOverModal(true);
     }
   }, [gameOver])
 
   const onClickResetHistory = () => {
-    if(window.confirm("Are you sure to clear history?") === true) {
+    if(window.confirm("Are you sure to clear local history?") === true) {
       console.log("[App] clear history.");
-      window.localStorage.setItem(storageKey, JSON.stringify([]));
+      saveScoreToLocal([])
       clearScore();
     }
   }
@@ -68,6 +67,12 @@ const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStat
   const onClickRestart = () => {
     if(window.confirm("Are you sure to restart this game?") === true) {
       resetAllCardsStatus(initCardArray());
+    }
+  }
+
+  const onClickLogout = () => {
+    if(window.confirm("Are you sure to sign out?") === true) {
+      signout()
     }
   }
 
@@ -97,7 +102,7 @@ const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStat
             This is a card game by React.<br/>
             Please select a pair of cards with same number. Then it will disappear.<br/>
             It will be over if you can not find a pair of cards any more.<br/>
-            <strong className="text-info">Please login to share your scores with community!</strong>
+            <strong className="text-info">Please Sign-in to share your scores with community!</strong>
           </p>
         </Modal.Body>
         <Modal.Footer>
@@ -108,14 +113,17 @@ const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStat
       <Row>
         <Col sm="12" md="10" lg="10" className="bg-info mt-2 rounded">
           <div className="d-flex justify-content-between align-items-center border-bottom border-primary mb-2 pt-2">
-            <div className="d-flex align-items-center">
-              <h1 className="text-warning">60K</h1>
-            </div>
+            <h1 className="text-warning">60K</h1>
 
-            <div className="d-flex">
-              <Button variant="info" className="mr-1" onClick={() => setShowHelpModal(true)}><strong>?</strong></Button>
-              <Button variant="warning" className="mr-1" onClick={() => onClickResetHistory()}>Reset score</Button>
-              <Button variant="danger" onClick={() => onClickRestart()}>New</Button>
+            <div class="d-flex">
+              { isSignedIn ?  <Button variant="warning" onClick={() => onClickLogout()}>Sign out</Button> : <Link to="/signin"><Button variant="warning">Sign-in</Button></Link> }
+              
+              <DropdownButton variant="primary" title="Game" className="px-2">
+                <Dropdown.Item onClick={() => onClickRestart()}>New Game</Dropdown.Item>
+                <Dropdown.Item onClick={() => onClickResetHistory()}>Clear history</Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item onClick={() => setShowHelpModal(true)}>Help</Dropdown.Item>
+              </DropdownButton>
             </div>
           </div>
           
