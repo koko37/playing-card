@@ -52,7 +52,7 @@ export function isGameOver(cardArray, spareCardsList) {
   }
 
   // check same number exists now ?
-  for(i=0; i<cardArray.length; i++) {
+  for(i=0; i<cardArray.length-1; i++) {
     if(cardArray[i].cardsData.length === 0) {
       continue;
     }
@@ -60,7 +60,7 @@ export function isGameOver(cardArray, spareCardsList) {
       continue;
     }
 
-    for(j=i+1; j<cardArray.length; j++) {
+    for(j=i+1; j<cardArray.length-1; j++) {
       if(cardArray[j].cardsData.length === 0) {
         continue;
       }
@@ -72,6 +72,14 @@ export function isGameOver(cardArray, spareCardsList) {
         cardArray[j].cardsData[cardArray[j].cardsData.length-1].number) {
           console.log("[same card]",i, cardArray[i].cardsData[cardArray[i].cardsData.length-1] ,
             j, cardArray[j].cardsData[cardArray[j].cardsData.length-1])
+        return false;
+      }
+    }
+    // find same card from the free cards store
+    for(j=0; j<cardArray[cardArray.length-1].cardsData.length-1; j++) {
+      if(cardArray[i].cardsData[cardArray[i].cardsData.length-1].number === cardArray[cardArray.length-1].cardsData[j].number) {
+          console.log("[same card on spare]",i, cardArray[i].cardsData[cardArray[i].cardsData.length-1] ,
+            j, cardArray[cardArray.length-1].cardsData[j])
         return false;
       }
     }
