@@ -38,7 +38,7 @@ export function swapTwoElement(numberArray, firstIndex, secondIndex) {
   numberArray[secondIndex] = c;
 }
 
-export function isGameOver(cardArray) {
+export function isGameOver(cardArray, spareCardsList) {
   let i, j;
   // check all of empty ?
   j = 0;
@@ -75,13 +75,21 @@ export function isGameOver(cardArray) {
         return false;
       }
     }
+
+    for(j=0; j<spareCardsList.length; j++) {
+      if(cardArray[i].cardsData[cardArray[i].cardsData.length-1].number === spareCardsList[j].number) {
+          console.log("[same card on spare]",i, cardArray[i].cardsData[cardArray[i].cardsData.length-1] ,
+            j, spareCardsList[j])
+        return false;
+      }
+    }
   }
 
   return true;
 }
 
 export default function initCardArray(){
-  var cardData = new Array(16);
+  var cardData = new Array(15);
   let cardDataInit = [];
   let n, firstId, secondId;
   let holderNo;
@@ -97,19 +105,19 @@ export default function initCardArray(){
   }
   firstId = 0;
   for(holderNo=0; holderNo<15; holderNo++) {
-    const holder_card_data = new Array(3);
+    const threeCards = new Array(3);
     for(n=0; n<3; n++) {
-      holder_card_data[n] = getCardFromNumber(cardDataInit[firstId++]);
+      threeCards[n] = getCardFromNumber(cardDataInit[firstId++]);
     }
-    cardData[holderNo] = holder_card_data;
+    cardData[holderNo] = threeCards;
   }
   
   // keep residue cards into final holder
-  const spare_card_holder_data = new Array(7);
+  const spareCardData = new Array(7);
   n = 0;
   while(firstId < 52) {
-    spare_card_holder_data[n++] = getCardFromNumber(cardDataInit[firstId++]);
+    spareCardData[n++] = getCardFromNumber(cardDataInit[firstId++]);
   }
-  cardData[15] = spare_card_holder_data;
-  return cardData;
+
+  return {cardData, spareCardData};
 }

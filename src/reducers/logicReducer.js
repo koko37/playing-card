@@ -12,6 +12,7 @@ export const initialState = {
   holdersState: [],
   firstSelectedId: -1,
   secondSelectedId: -1,
+  spareCardsState: [],
   scoreHistory: readScoreFromLocal() || []
 }
 
@@ -28,24 +29,25 @@ export default function logicReducer(state = initialState, action) {
       console.log("[Action] Reset game status.");
       var holderStatesTemp = [];
       var holderStateTemp;
-      let i;
-      for(i=0; i<16; i++) {
+      for(let i=0; i<15; i++) {
         // [TODO] check again for memory assignment
         holderStateTemp = {};
         Object.assign(holderStateTemp, defaultHolderState);
-        holderStateTemp.cardsData = action.payload[i];
-        if((i<10) || (i>14))
-        {
-          holderStateTemp.enable = true;
-        }
+        holderStateTemp.cardsData = action.payload.cardData[i];
+        if(i<10) holderStateTemp.enable = true;
         holderStatesTemp.push(holderStateTemp);
       }
+      // last 7 spare cards holder, now set as empty at first.
+      // instead, 7 cards data are stored on spareCardsState
+      holderStatesTemp.push({...defaultHolderState, enable: true});
+
       return {
         ...state,
         score: 0,
         gameOver: false,
         firstSelectedId: -1,
         secondSelectedId: -1,
+        spareCardsState: action.payload.spareCardData,
         holdersState: holderStatesTemp,
       }
       
@@ -65,6 +67,7 @@ export default function logicReducer(state = initialState, action) {
      */
     case actions.PICKUP_FIRST_CARD:
       console.log("[Action] pickup first.");
+
       return {
         ...state,
         firstSelectedId: action.payload
@@ -158,10 +161,36 @@ export default function logicReducer(state = initialState, action) {
       return state;
     
     /**
+     * send a spare card from store to last holder
+     */
+    case actions.SEND_SPARE_CARD_TO_LAST_HOLDER:
+      if(state.spareCardsState.length === 0) {
+        console.log("[Action] Spare Cards:", state.spareCardsState);
+        console.log("[Action] Last Holder:", state.holdersState[15].cardsData);
+
+        return {
+          ...state,
+          firstSelectedId: -1,
+          secondSelectedId: -1,
+          spareCardsState: state.holdersState[15].cardsData,
+          holdersState: [...state.holdersState.slice(0,15), {...state.holdersState[15], cardsData: []}]
+        }
+      } else {
+        const lastCardHolderState = [...state.holdersState[15].cardsData, state.spareCardsState[0]]
+        return {
+          ...state,
+          firstSelectedId: -1,
+          secondSelectedId: -1,
+          spareCardsState: [...state.spareCardsState.slice(1, state.spareCardsState.length)],
+          holdersState: [...state.holdersState.slice(0,15), {...state.holdersState[15], cardsData: lastCardHolderState}]
+        }
+      }
+
+    /**
      * check game over
      */
     case actions.CHECK_GAME_OVER:
-      if(isGameOver(state.holdersState)) {
+      if(isGameOver(state.holdersState, state.spareCardsState)) {
         console.log("[Action] GAME OVER!");
         return {
           ...state,

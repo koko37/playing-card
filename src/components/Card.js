@@ -6,7 +6,7 @@ const cardImages = require.context('../imgs/cards')
 export default ({id, card, active, pickup}) => {
   const card_style = {
     borderRadius: '5%',
-    boxShadow: (active ? '0px 0px 3px 3px #C88' : 'none')
+    boxShadow: (active ? '0px 0px 10px 10px #CC8' : 'none')
   }
   
   const imageFileName = () => {

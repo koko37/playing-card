@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Row, Col, Button, Modal, DropdownButton, Dropdown, Spinner } from 'react-bootstrap'
 import CardHolder from "../components/CardHolder"
+import CardSpare from "../components/CardSpare"
 
 import { signOut } from '../actions/loginAction'
 import { resetCardsStatus, appendScoreHistory, clearScoreHistory } from "../actions/logicActions"
@@ -129,40 +130,40 @@ const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStat
           {
             (holdersState.length > 0) && (
               <div>
-                <Row>
+                <Row className="mt-1">
                   <CardHolder id={0} key={0}/>
                   <CardHolder id={1} key={1}/>
                   <CardHolder id={2} key={2}/>
                   <CardHolder id={3} key={3}/>
                   <CardHolder id={4} key={4}/>
                 </Row>
-                <Row>
+                <Row className="mt-1">
                   <CardHolder id={10} key={10}/>
                   <CardHolder id={11} key={11}/>
                   <CardHolder id={12} key={12}/>
                   <CardHolder id={13} key={13}/>
                   <CardHolder id={14} key={14}/>
                 </Row>
-                <Row>
+                <Row className="mt-1">
                   <CardHolder id={5} key={5}/>
                   <CardHolder id={6} key={6}/>
                   <CardHolder id={7} key={7}/>
                   <CardHolder id={8} key={8}/>
                   <CardHolder id={9} key={9}/>
                 </Row>
-                <Row>
-                  <Col></Col>
-                  <Col></Col>
+                <Row className="mt-3">
+                  <CardSpare />
+                  <Col className="mx-lg-4"></Col>
                   <CardHolder id={15} key={15} />
-                  <Col></Col>
-                  <Col></Col>
+                  <Col className="mx-lg-4"></Col>
+                  <Col className="mx-lg-4"></Col>
                 </Row>
               </div>
             )
           }
         
         </Col>
-        <Col sm="12" md="2" lg="2" className="mt-3">
+        <Col sm="12" md="2" lg="2" className="mt-3 h-full">
           <h4 className="text-info">Score: </h4>
           <h2 className="text-white text-center">{score}</h2>
           <hr/>
@@ -172,7 +173,7 @@ const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStat
           )
           }
           {
-            remoteScores.map( (item, id) => (
+            remoteScores.filter((item, id) => id<3).map( (item, id) => (
               <div key={id}>
                 <p>{item.username}</p>
                 <h3 className="text-center">{item.point}</h3>
@@ -186,7 +187,7 @@ const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStat
           {
             scoreHistory.sort((a, b) => {
               return b.score - a.score
-            }).map( (item, id) => (
+            }).filter((item, id) => id<3).map( (item, id) => (
               <div key={id}>
                 <h3 className="text-center">{item.score}</h3>
                 <p>{new Date(item.date).toDateString()}</p>

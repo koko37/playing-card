@@ -8,6 +8,7 @@ export const OPEN_CENTER_CARD = "OPEN_CENTER_CARD"
 export const CHECK_GAME_OVER = "CHECK_GAME_OVER"
 export const APPEND_SCORE_HISTORY ="APPEND_SCORE_HISTORY"
 export const CLEAR_SCORE_HISTORY = "CLEAR_SCORE_HISTORY"
+export const SEND_SPARE_CARD_TO_LAST_HOLDER = "SEND_SPARE_CARD_TO_LAST_HOLDER"
 
 export const resetCardsStatus = (cardArrayData) => ({
   type: RESET_CARDS_STATUS,
@@ -44,4 +45,8 @@ export const appendScoreHistory = (history) => ({
 })
 export const clearScoreHistory = () => ({
   type: CLEAR_SCORE_HISTORY
+})
+
+export const sendSpareCardToLastHolder = () => ({
+  type: SEND_SPARE_CARD_TO_LAST_HOLDER
 })
