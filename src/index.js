@@ -19,7 +19,9 @@ const store = createStore(
 document.body.style.backgroundImage = `url(${backgroundImage})`
 
 ReactDOM.render(
+  <React.StrictMode>
     <Provider store={store}>
         <App />
     </Provider>
+  </React.StrictMode>
 , document.getElementById("root"))
