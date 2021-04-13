@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { Row, Col, Button, Modal, DropdownButton, Dropdown, Spinner } from 'react-bootstrap'
+import { Row, Col, Button, DropdownButton, Dropdown, Spinner } from 'react-bootstrap'
 import CardHolder from "../components/CardHolder"
+import CardExtra from "../components/CardExtra"
 import CardSpare from "../components/CardSpare"
+import Help from "../components/Help"
+import Score from "../components/ScoreResult"
 
 import { signOut } from '../actions/loginAction'
 import { resetCardsStatus, appendScoreHistory, clearScoreHistory } from "../actions/logicActions"
@@ -19,7 +21,6 @@ const mapStateToProps = (state) => ({
   scoreHistory: state.logic.scoreHistory,
   isSignedIn: state.login.isAuthUser,
   authTokens: state.login.tokens,
-  remoteScores: state.score.scores,
   scoreLoading: state.score.uploading
 })
 
@@ -33,18 +34,17 @@ const mapDispatchToProps = (dispatch) => ({
 
 const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStatus, 
   appendScore, clearLocalScores, uploadScoreToServer, 
-  isSignedIn, authTokens, signout,
-  remoteScores, scoreLoading}) => {
+  isSignedIn, authTokens, signout, scoreLoading}) => {
 
   useEffect(() => {
     resetAllCardsStatus(initCardArray());
-    console.log("[App] loading scores.");
+    // // console.log("[App] loading scores.");
   }, [])
 
   useEffect(() => {
     if(gameOver === true) {
       // append game history
-      console.log("[App] saving score.")
+      // // console.log("[App] saving score.")
       var scoreNewItem = {
         date: new Date(),
         score: score
@@ -59,7 +59,7 @@ const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStat
 
   const onClickResetHistory = () => {
     if(window.confirm("Are you sure to clear local history?") === true) {
-      console.log("[App] clear history.");
+      // // console.log("[App] clear history.");
       clearLocalScores();
     }
   }
@@ -84,112 +84,67 @@ const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStat
 
   return (
     <div>
-      <Modal show={showGameOverModal} onHide={onCloseModal}>
-        <Modal.Header closeButton><Modal.Title>60K Points</Modal.Title></Modal.Header>
-        <Modal.Body>
-            <h4 className="text-center">Game Over!</h4>
-            <h2 className="text-center text-danger">{score}</h2>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={onCloseModal}>Close</Button>
-        </Modal.Footer>
-      </Modal>
+      <Score score show={showGameOverModal} onClose={onCloseModal} />
+      <Help show={showHelpModal} onClose={onCloseHelpModal} />
 
-      <Modal show={showHelpModal} onHide={onCloseHelpModal} size="lg">
-        <Modal.Header closeButton><Modal.Title>How to play?</Modal.Title></Modal.Header>
-        <Modal.Body>
-          <p className="lead text-muted">
-            This is a card game by React.<br/>
-            Please select a pair of cards with same number. Then it will disappear.<br/>
-            It will be over if you can not find a pair of cards any more.<br/>
-            <strong className="text-info">Please Sign-in to share your scores with community!</strong>
-          </p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={onCloseHelpModal}>Close</Button>
-        </Modal.Footer>
-      </Modal>
+      <div>
+        <div className="d-flex justify-content-between align-items-center border-bottom border-primary mb-2 pt-2">
+          <h1 className="text-warning">60K</h1>
+
+          <div className="d-flex">
+            <Button variant="warning" onClick={() => onClickRestart()}>New Game</Button>
+          </div>
+        </div>
+      </div>
 
       <Row>
-        <Col sm="12" md="10" lg="10" className="bg-info mt-2 rounded">
-          <div className="d-flex justify-content-between align-items-center border-bottom border-primary mb-2 pt-2">
-            <h1 className="text-warning">60K</h1>
-
-            <div className="d-flex">
-              { isSignedIn ?  <Button variant="warning" onClick={() => onClickLogout()}>Sign out</Button> : <Link to="/signin"><Button variant="warning">Sign-in</Button></Link> }
-              
-              <DropdownButton variant="primary" title="Game" className="px-2">
-                <Dropdown.Item onClick={() => onClickRestart()}>New Game</Dropdown.Item>
-                <Dropdown.Item onClick={() => onClickResetHistory()}>Clear history</Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item onClick={() => setShowHelpModal(true)}>Help</Dropdown.Item>
-              </DropdownButton>
-            </div>
-          </div>
-          
+        <Col sm="12" xl="10" className="mt-2 rounded">
           {
             (holdersState.length > 0) && (
-              <div>
-                <Row className="mt-1">
-                  <CardHolder id={0} key={0}/>
-                  <CardHolder id={1} key={1}/>
-                  <CardHolder id={2} key={2}/>
-                  <CardHolder id={3} key={3}/>
-                  <CardHolder id={4} key={4}/>
-                </Row>
-                <Row className="mt-1">
-                  <CardHolder id={10} key={10}/>
-                  <CardHolder id={11} key={11}/>
-                  <CardHolder id={12} key={12}/>
-                  <CardHolder id={13} key={13}/>
-                  <CardHolder id={14} key={14}/>
-                </Row>
-                <Row className="mt-1">
-                  <CardHolder id={5} key={5}/>
-                  <CardHolder id={6} key={6}/>
-                  <CardHolder id={7} key={7}/>
-                  <CardHolder id={8} key={8}/>
-                  <CardHolder id={9} key={9}/>
-                </Row>
-                <Row className="mt-3">
+              <div className="d-block d-md-flex">
+                <div>
+                  <Row className="px-3">
+                    <CardHolder id={0} key={0}/>
+                    <CardHolder id={1} key={1}/>
+                    <CardHolder id={2} key={2}/>
+                    <CardHolder id={3} key={3}/>
+                    <CardHolder id={4} key={4}/>
+                  </Row>
+                  <Row className="px-3 mt-1">
+                    <CardHolder id={10} key={10}/>
+                    <CardHolder id={11} key={11}/>
+                    <CardHolder id={12} key={12}/>
+                    <CardHolder id={13} key={13}/>
+                    <CardHolder id={14} key={14}/>
+                  </Row>
+                  <Row className="px-3 mt-1">
+                    <CardHolder id={5} key={5}/>
+                    <CardHolder id={6} key={6}/>
+                    <CardHolder id={7} key={7}/>
+                    <CardHolder id={8} key={8}/>
+                    <CardHolder id={9} key={9}/>
+                  </Row>
+                </div>
+                <div className="d-flex d-md-block ml-2 ml-md-5 mt-2 mt-md-0" style={{maxWidth: '40vw'}}>
                   <CardSpare />
-                  <Col className="mx-lg-4"></Col>
-                  <CardHolder id={15} key={15} />
-                  <Col className="mx-lg-4"></Col>
-                  <Col className="mx-lg-4"></Col>
-                </Row>
+                  <CardExtra id={15} key={15} />
+                </div>
               </div>
             )
           }
         
         </Col>
-        <Col sm="12" md="2" lg="2" className="mt-3 h-full">
-          <h4 className="text-info">Score: </h4>
+        <Col sm="12" xl="2" className="mt-3 h-full">
+          <h4 className="text-white">Score: </h4>
           <h2 className="text-white text-center">{score}</h2>
-          <hr/>
-          <h5 className="text-info">Remote Scores</h5>
-          { scoreLoading && (
-            <Spinner animation="border" variant="warning" className="ml-3 mt-2 align-items-center" />
-          )
-          }
-          {
-            remoteScores.filter((item, id) => id<3).map( (item, id) => (
-              <div key={id}>
-                <p>{item.username}</p>
-                <h3 className="text-center">{item.point}</h3>
-                <p>{new Date(item.at).toDateString()}</p>
-              </div>
-            ))
-          }
 
-          <hr/>
-          <h5 className="text-info">Local Scores</h5>
+          <h5 className="text-white">Local Scores</h5>
           {
             scoreHistory.sort((a, b) => {
               return b.score - a.score
-            }).filter((item, id) => id<3).map( (item, id) => (
+            }).filter((item, id) => id < 5).map( (item, id) => (
               <div key={id}>
-                <h3 className="text-center">{item.score}</h3>
+                <h4 className="text-center">{item.score}</h4>
                 <p>{new Date(item.date).toDateString()}</p>
               </div>
             ))

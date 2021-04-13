@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Col } from 'react-bootstrap'
 import { sendSpareCardToLastHolder } from '../actions/logicActions'
 import FreeCard from "./FreeCard"
 import BlankCard from "./BlankCard"
@@ -30,10 +29,10 @@ const CardSpare = ({ spareCards, transferFreeCard }) => {
   }, [spareCards])
 
   return (
-    <Col className="d-flex mb-1 mx-lg-4 flex-1" onClick={() => transferFreeCard()}>
+    <div className="mx-lg-2 mr-3 mr-md-0" onClick={() => transferFreeCard()}>
       { (spareCards.length > 0) && (<FreeCard highlight={highlight && toggleHighlight} />) }
       { (spareCards.length === 0) && (<BlankCard />) }
-    </Col>
+    </div>
   )
 }
 
