@@ -1,65 +1,63 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { Row, Col, Button, DropdownButton, Dropdown, Spinner } from 'react-bootstrap'
+import { Row, Col, Button } from 'react-bootstrap'
+import Card from "../components/Card"
 import CardHolder from "../components/CardHolder"
 import CardExtra from "../components/CardExtra"
 import CardSpare from "../components/CardSpare"
 import Help from "../components/Help"
 import Score from "../components/ScoreResult"
 
-import { signOut } from '../actions/loginAction'
 import { resetCardsStatus, appendScoreHistory, clearScoreHistory } from "../actions/logicActions"
-import { uploadScore } from '../actions/scoreAction'
 
 import initCardArray from "../utils/card"
 import "../styles/app.css"
+import githubIcon from '../imgs/github.png'
 
 const mapStateToProps = (state) => ({
   score: state.logic.score,
   holdersState: state.logic.holdersState,
   gameOver: state.logic.gameOver,
   scoreHistory: state.logic.scoreHistory,
-  isSignedIn: state.login.isAuthUser,
-  authTokens: state.login.tokens,
-  scoreLoading: state.score.uploading
 })
 
 const mapDispatchToProps = (dispatch) => ({
   resetAllCardsStatus: (cardArray) => dispatch(resetCardsStatus(cardArray)),
   appendScore: (item) => dispatch(appendScoreHistory(item)),
   clearLocalScores: () => dispatch(clearScoreHistory()),
-  uploadScoreToServer: (p, t) => dispatch(uploadScore(p, t)),
-  signout: () => dispatch(signOut())
 })
 
-const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStatus, 
-  appendScore, clearLocalScores, uploadScoreToServer, 
-  isSignedIn, authTokens, signout, scoreLoading}) => {
+const Game60K = ({
+  holdersState, 
+  score, 
+  gameOver, 
+  scoreHistory, 
+  resetAllCardsStatus, 
+  appendScore, 
+  clearLocalScores
+}) => {
 
   useEffect(() => {
     resetAllCardsStatus(initCardArray());
-    // // console.log("[App] loading scores.");
+    // console.log("[App] loading scores.");
   }, [])
 
   useEffect(() => {
     if(gameOver === true) {
       // append game history
-      // // console.log("[App] saving score.")
+      // console.log("[App] saving score.")
       var scoreNewItem = {
         date: new Date(),
         score: score
       };
       appendScore(scoreNewItem);
-      // upload score into backend
-      uploadScoreToServer(score, authTokens);
-
       setShowGameOverModal(true);
     }
   }, [gameOver])
 
   const onClickResetHistory = () => {
     if(window.confirm("Are you sure to clear local history?") === true) {
-      // // console.log("[App] clear history.");
+      // console.log("[App] clear history.");
       clearLocalScores();
     }
   }
@@ -67,12 +65,6 @@ const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStat
   const onClickRestart = () => {
     if(window.confirm("Are you sure to restart this game?") === true) {
       resetAllCardsStatus(initCardArray());
-    }
-  }
-
-  const onClickLogout = () => {
-    if(window.confirm("Are you sure to sign out?") === true) {
-      signout()
     }
   }
 
@@ -87,11 +79,30 @@ const Game60K = ({holdersState, score, gameOver, scoreHistory, resetAllCardsStat
       <Score score show={showGameOverModal} onClose={onCloseModal} />
       <Help show={showHelpModal} onClose={onCloseHelpModal} />
 
+      <div className="d-none">
+        {
+          ['a', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'j', 'q', 'k'].map(
+            (item, id) => (
+              <div key={id}>
+                <Card card={{suit: 'h', number: item}}/>
+                <Card card={{suit: 'd', number: item}}/>
+                <Card card={{suit: 'c', number: item}}/>
+                <Card card={{suit: 's', number: item}}/>
+              </div>
+            )
+          )
+        }
+      </div>
+
       <div>
         <div className="d-flex justify-content-between align-items-center border-bottom border-primary mb-2 pt-2">
-          <h1 className="text-warning">60K</h1>
+          <h1 className="text-warning">
+            Card Game <strong>60K</strong>
+          </h1>
 
           <div className="d-flex">
+            <a href="https://github.com/yeahCH/playing-card" target="_blank" className="mr-4"><img src={githubIcon} /></a>
+
             <Button variant="warning" onClick={() => onClickRestart()}>New Game</Button>
           </div>
         </div>

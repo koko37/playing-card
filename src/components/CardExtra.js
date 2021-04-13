@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { Fade, Col } from "react-bootstrap"
+import { Fade } from "react-bootstrap"
 
 import Card from "./Card"
 import BlankCard from "./BlankCard"
