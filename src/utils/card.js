@@ -76,12 +76,12 @@ export function isGameOver(cardArray, spareCardsList) {
       }
     }
     // find same card from the free cards store
-    for(j=0; j<cardArray[cardArray.length-1].cardsData.length-1; j++) {
+    for(j=0; j<cardArray[cardArray.length-1].cardsData.length; j++) {
       if(cardArray[i].cardsData[cardArray[i].cardsData.length-1].number === cardArray[cardArray.length-1].cardsData[j].number) {
           // console.log("[same card on spare]",i, cardArray[i].cardsData[cardArray[i].cardsData.length-1] ,
           //  j, cardArray[cardArray.length-1].cardsData[j])
         return false;
-      }
+      } 
     }
 
     for(j=0; j<spareCardsList.length; j++) {
