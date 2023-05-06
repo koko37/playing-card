@@ -81,7 +81,7 @@ export function isGameOver(cardArray, spareCardsList) {
           // console.log("[same card on spare]",i, cardArray[i].cardsData[cardArray[i].cardsData.length-1] ,
           //  j, cardArray[cardArray.length-1].cardsData[j])
         return false;
-      }
+      } 
     }
 
     for(j=0; j<spareCardsList.length; j++) {
