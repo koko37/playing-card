@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/playing-card/static/css/main.87d2d26e.chunk.css",
-    "main.js": "/playing-card/static/js/main.baca6d02.chunk.js",
-    "main.js.map": "/playing-card/static/js/main.baca6d02.chunk.js.map",
+    "main.css": "/playing-card/static/css/main.dde78c47.chunk.css",
+    "main.js": "/playing-card/static/js/main.8cb5ec64.chunk.js",
+    "main.js.map": "/playing-card/static/js/main.8cb5ec64.chunk.js.map",
     "runtime-main.js": "/playing-card/static/js/runtime-main.883c0290.js",
     "runtime-main.js.map": "/playing-card/static/js/runtime-main.883c0290.js.map",
-    "static/css/2.9233ae65.chunk.css": "/playing-card/static/css/2.9233ae65.chunk.css",
-    "static/js/2.0784ef71.chunk.js": "/playing-card/static/js/2.0784ef71.chunk.js",
-    "static/js/2.0784ef71.chunk.js.map": "/playing-card/static/js/2.0784ef71.chunk.js.map",
+    "static/css/2.d4bd74a8.chunk.css": "/playing-card/static/css/2.d4bd74a8.chunk.css",
+    "static/js/2.053c560a.chunk.js": "/playing-card/static/js/2.053c560a.chunk.js",
+    "static/js/2.053c560a.chunk.js.map": "/playing-card/static/js/2.053c560a.chunk.js.map",
     "index.html": "/playing-card/index.html",
-    "precache-manifest.f5f290b0b248acc005bb2c51df0481ba.js": "/playing-card/precache-manifest.f5f290b0b248acc005bb2c51df0481ba.js",
+    "precache-manifest.31282a1fd1ae041749a4caec41b8582f.js": "/playing-card/precache-manifest.31282a1fd1ae041749a4caec41b8582f.js",
     "service-worker.js": "/playing-card/service-worker.js",
-    "static/css/2.9233ae65.chunk.css.map": "/playing-card/static/css/2.9233ae65.chunk.css.map",
-    "static/css/main.87d2d26e.chunk.css.map": "/playing-card/static/css/main.87d2d26e.chunk.css.map",
-    "static/js/2.0784ef71.chunk.js.LICENSE.txt": "/playing-card/static/js/2.0784ef71.chunk.js.LICENSE.txt",
+    "static/css/2.d4bd74a8.chunk.css.map": "/playing-card/static/css/2.d4bd74a8.chunk.css.map",
+    "static/css/main.dde78c47.chunk.css.map": "/playing-card/static/css/main.dde78c47.chunk.css.map",
+    "static/js/2.053c560a.chunk.js.LICENSE.txt": "/playing-card/static/js/2.053c560a.chunk.js.LICENSE.txt",
     "static/media/10C.png": "/playing-card/static/media/10C.cc41b23a.png",
     "static/media/10D.png": "/playing-card/static/media/10D.058bcf7e.png",
     "static/media/10H.png": "/playing-card/static/media/10H.4a6a5d07.png",
@@ -58,9 +58,9 @@
   },
   "entrypoints": [
     "static/js/runtime-main.883c0290.js",
-    "static/css/2.9233ae65.chunk.css",
-    "static/js/2.0784ef71.chunk.js",
-    "static/css/main.87d2d26e.chunk.css",
-    "static/js/main.baca6d02.chunk.js"
+    "static/css/2.d4bd74a8.chunk.css",
+    "static/js/2.053c560a.chunk.js",
+    "static/css/main.dde78c47.chunk.css",
+    "static/js/main.8cb5ec64.chunk.js"
   ]
 }
