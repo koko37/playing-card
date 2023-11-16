@@ -15,6 +15,8 @@ import initCardArray from "../utils/card"
 import "../styles/app.css"
 import githubIcon from '../imgs/github.png'
 
+// Game component
+
 const mapStateToProps = (state) => ({
   score: state.logic.score,
   holdersState: state.logic.holdersState,
